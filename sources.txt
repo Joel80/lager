@@ -1,0 +1,4 @@
+
+Import images
+https://github.com/microsoft/TypeScript-React-Starter/issues/12
+
