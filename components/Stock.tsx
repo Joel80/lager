@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import config from '../config/config.json';
 
 function StockList() {
@@ -15,6 +15,7 @@ function StockList() {
 
     return (
         <View>
+            <Text>Produkt - i lager</Text>
             {list}
         </View>
 );
