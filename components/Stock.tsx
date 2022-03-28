@@ -11,11 +11,11 @@ function StockList() {
         .then(result => setProducts(result.data));
     }, []);
 
-    const list = products.map((product: {name: string, stock: number}, index) => <Text key={index}>{ product.name } - { product.stock }</Text>);
+    const list = products.map((product: {name: string, stock: number}, index) => <Text style={prodStyles.product} key={index}>{ product.name } - { product.stock }</Text>);
 
     return (
         <View>
-            <Text>Produkt - i lager</Text>
+            <Text style={prodStyles.productListHeading}>Produkt - i lager</Text>
             {list}
         </View>
 );
@@ -25,9 +25,26 @@ function StockList() {
 export default function Stock() {
     return (
         <View>
-            <Text style={{color: '#333', fontSize: 24}}>Lagerförteckning</Text>
+            <Text style={prodStyles.productsHeading}>Lagerförteckning</Text>
             <StockList />
         </View>
     );
 }
+
+const prodStyles = StyleSheet.create({
+    product: {
+        color: '#fdfdfd',
+        fontSize: 18
+        /* textAlign: 'center' */
+    },
+    productsHeading: {
+        color: '#fdfdfd', 
+        fontSize: 24
+        /* textAlign: 'center' */
+    },
+    productListHeading: {
+        color: '#fdfdfd', 
+        fontSize: 22
+    }
+})
 
