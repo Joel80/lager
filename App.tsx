@@ -30,20 +30,19 @@ const styles = StyleSheet.create({
   base: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#357960',
     paddingLeft: 24,
-    paddingRight: 24,
+    paddingRight: 24
   },
   mainHeading: {
     color: '#fdfdfd', 
-    fontSize: 35,
-    paddingTop: 15
+    fontSize: 36,
+    paddingTop: 16
     /* textAlign: 'center', */ 
   },
   subHeading: {
     color: '#fdfdfd', 
-    fontSize: 25, 
-    paddingBottom: 15,
+    fontSize: 28, 
+    paddingBottom: 16,
     /* textAlign: 'center' */
   },
   image: {

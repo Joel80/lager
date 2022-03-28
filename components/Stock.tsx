@@ -34,13 +34,14 @@ export default function Stock() {
 const prodStyles = StyleSheet.create({
     product: {
         color: '#fdfdfd',
-        fontSize: 18
+        fontSize: 18,
+        paddingBottom: 2
         /* textAlign: 'center' */
     },
     productsHeading: {
         color: '#fdfdfd', 
         fontSize: 24,
-        paddingTop: 15,
+        paddingTop: 16,
         /* textAlign: 'center' */
     },
     productListHeading: {
