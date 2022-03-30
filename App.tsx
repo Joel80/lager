@@ -10,7 +10,7 @@ export default function App() {
       <ScrollView style={styles.scrollStyle}>
         <View style={styles.base}>
           <Text style={styles.mainHeading}>Infinity Warehouse</Text>
-          <Text style={styles.subHeading}> - Trädgård - </Text>
+          <Text style={styles.subHeading}>Trädgård</Text>
           <Image source={greenhouse} style={styles.image} />
           <Text style={styles.imageCredit}>Photo by Christin Noelle at Unsplash</Text>
           <Stock />
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   base: {
     flex: 1,
-    alignItems: 'center',
+    /* alignItems: 'center', */
     paddingLeft: 24,
     paddingRight: 24
   },
