@@ -15,7 +15,6 @@ function StockList() {
 
     return (
         <View>
-           {/*  <Text style={prodStyles.productListHeading}>Produkt - i lager</Text> */}
             {list}
         </View>
 );
@@ -43,11 +42,6 @@ const prodStyles = StyleSheet.create({
         fontSize: 24,
         paddingTop: 16,
         /* textAlign: 'center' */
-    },
-    productListHeading: {
-        color: '#fdfdfd', 
-        fontSize: 22,
-        paddingTop: 12,
     }
 })
 
