@@ -1,4 +1,5 @@
 {
     "expo": "exp://exp.host/@kepper/lager?release-channel=default",
+    "project-page": "https://expo.dev/@kepper/lager?serviceType=classic&distribution=expo-go",
     "github": "https://github.com/Joel80/lager.git"
 }
