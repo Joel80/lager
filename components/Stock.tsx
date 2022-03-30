@@ -3,6 +3,18 @@ import { Text, View, StyleSheet } from 'react-native';
 import config from '../config/config.json';
 
 function StockList() {
+    // Interface for Product, defines the properties and
+    // their types for a Product
+    interface Product {
+        name: string; 
+        stock: number; 
+        article_number: string; 
+        description: string; 
+        specifiers: string; 
+        location: string; 
+        price: number;
+    }
+    
     const [products, setProducts] = useState([]);
 
     useEffect (() => {
@@ -11,18 +23,8 @@ function StockList() {
         .then(result => setProducts(result.data));
     }, []);
 
-    const list = products.map((
-        product: 
-        {
-            name: string, 
-            stock: number, 
-            article_number: string, 
-            description: string, 
-            specifiers: string, 
-            location: string, 
-            price: number
-        }, 
-        index) => <Text style={prodStyles.product} key={index}>{ product.name } - { product.stock }</Text>);
+    // product is a Product
+    const list = products.map((product: Product, index) => <Text style={prodStyles.product} key={index}>{ product.name } - { product.stock }</Text>);
 
     return (
         <View>
