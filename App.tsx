@@ -1,22 +1,37 @@
+import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Stock from './components/Stock';
-import greenhouse from './assets/greenhouse.jpg';
+import Home from './components/Home';
+import Pick from './components/Pick';
+import { getFocusedRouteNameFromRoute, NavigationContainer} from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+const routeIcons = {
+    "Lager": "home",
+    "Plock": "list",
+};
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollStyle}>
-        <View style={styles.base}>
-          <Text style={styles.mainHeading}>Infinity Warehouse</Text>
-          <Text style={styles.subHeading}>Trädgård</Text>
-          <Image source={greenhouse} style={styles.image} />
-          <Text style={styles.imageCredit}>Photo by Christin Noelle at Unsplash</Text>
-          <Stock />
-          <StatusBar style="auto" />
-        </View>
-      </ScrollView>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+                    let iconName = routeIcons[route.name] || "alert";
+                    return <Ionicons name={iconName} size={size} color={color} />;
+                },
+                tabBarInactiveTintColor: 'tomato',
+                tabBarInActiveTintColor: 'gray',
+            })}
+        >
+          <Tab.Screen name="Lager" component={Home} />
+          <Tab.Screen name="Plock" component={Pick} /> 
+        </Tab.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto"/>
     </SafeAreaView>
   );
 }
@@ -25,34 +40,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollStyle: {
-    backgroundColor: '#357960'
-  },
-  base: {
-    flex: 1,
-    /* alignItems: 'center', */
-    paddingLeft: 24,
-    paddingRight: 24
-  },
-  mainHeading: {
-    color: '#fdfdfd', 
-    fontSize: 36,
-    paddingTop: 16
-    /* textAlign: 'center', */ 
-  },
-  subHeading: {
-    color: '#fdfdfd', 
-    fontSize: 28, 
-    paddingBottom: 16,
-    /* textAlign: 'center' */
-  },
-  image: {
-    width: 320, 
-    height: 240,
-  },
-  imageCredit: {
-    fontSize: 14,
-    color: '#fdfdfd',
-    paddingTop: 2
-  }
 });
