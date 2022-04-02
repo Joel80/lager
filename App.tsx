@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Home from './components/Home';
 import Pick from './components/Pick';
-import { getFocusedRouteNameFromRoute, NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
