@@ -3,16 +3,17 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Stock from './Stock';
 import greenhouse from '../assets/greenhouse.jpg';
+import { Base, Typography } from '../styles/index.js'
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollStyle}>
-        <View style={styles.base}>
-          <Text style={styles.mainHeading}>Infinity Warehouse</Text>
-          <Text style={styles.subHeading}>Trädgård</Text>
-          <Image source={greenhouse} style={styles.image} />
-          <Text style={styles.imageCredit}>Photo by Christin Noelle at Unsplash</Text>
+    <SafeAreaView style={Base.container}>
+      <ScrollView style={Base.mainBackgroundColor}>
+        <View style={Base.base}>
+          <Text style={[Typography.header1, Base.mainTextColor]}>Infinity Warehouse</Text>
+          <Text style={[Typography.header2, Base.mainTextColor]}>Trädgård</Text>
+          <Image source={greenhouse} style={Base.image} />
+          <Text style={[Typography.imageCredit, Base.mainTextColor]}>Photo by Christin Noelle at Unsplash</Text>
           <Stock />
           <StatusBar style="auto" />
         </View>
@@ -21,38 +22,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollStyle: {
-    backgroundColor: '#357960'
-  },
-  base: {
-    flex: 1,
-    /* alignItems: 'center', */
-    paddingLeft: 24,
-    paddingRight: 24
-  },
-  mainHeading: {
-    color: '#fdfdfd', 
-    fontSize: 36,
-    paddingTop: 16
-    /* textAlign: 'center', */ 
-  },
-  subHeading: {
-    color: '#fdfdfd', 
-    fontSize: 28, 
-    paddingBottom: 16,
-    /* textAlign: 'center' */
-  },
-  image: {
-    width: 320, 
-    height: 240,
-  },
-  imageCredit: {
-    fontSize: 14,
-    color: '#fdfdfd',
-    paddingTop: 2
-  }
-});
