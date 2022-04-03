@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import config from '../config/config.json';
-import OrderItem from '../interfaces/order_item';
+import Product from '../interfaces/product';
 import { Base, Typography } from '../styles/index.js'
 
 function StockList() {
@@ -14,8 +14,7 @@ function StockList() {
         .then(result => setProducts(result.data));
     }, []);
 
-    // product is a orderItem
-    const list = products.map((product: OrderItem, index) => <Text style={[Typography.normal, Base.mainTextColor]} key={index}>{ product.name } - { product.stock }</Text>);
+    const list = products.map((product: Product, index) => <Text style={[Typography.normal, Base.mainTextColor]} key={index}>{ product.name } - { product.stock }</Text>);
 
     return (
         <View>
