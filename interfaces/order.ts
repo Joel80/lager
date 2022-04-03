@@ -10,4 +10,4 @@ export default interface Order {
     status: string,
     status_id: number,
     order_items: Array<OrderItem>
-}
+};
