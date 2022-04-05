@@ -19,7 +19,7 @@ export default function OrderList( { navigation }) {
                 title={order.name}
                 key={index}
                 onPress={() => {
-                    navigation.navigate('Detalis', {
+                    navigation.navigate('Details', {
                         order: order
                     });
                 }}
