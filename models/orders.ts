@@ -22,8 +22,23 @@ const orders = {
 
 
         //TODO: Ändra status för ordern som är packad
+        await this.setOrderStatus(order, 200);
+    },
+    setOrderStatus: async function setOrderStatus(order: Order, status_id: number) {
+        order.api_key = config.api_key;
+        order.status_id = status_id;
+        fetch("https://lager.emilfolino.se/v2/orders", {
+        body: JSON.stringify(order),
+        headers: {
+        'content-type': 'application/json'
+        },
+        method: 'PUT'
+        })
+        .then(function (response) {
 
+        });
     }
+
 };
 
 export default orders;
