@@ -5,12 +5,6 @@ import Product from '../interfaces/product';
 
 
 const products = {
-    getStock: async function getStock(product: Product) {
-        const response = await fetch(`${config.base_url}/${product.id}?api_key=${config.api_key}`);
-        const result = await response.json();
-
-        return result.data["stock"];
-    },
     getProduct: async function getProduct(product_id: number) {
         const response = await fetch(`${config.base_url}/products/${product_id}?api_key=${config.api_key}`);
         const result = await response.json();
@@ -35,5 +29,5 @@ const products = {
             console.log(response);
         });
     }
-}
+};
 export default products;
