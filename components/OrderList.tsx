@@ -10,7 +10,7 @@ export default function OrderList( { navigation }) {
         fetch(`${config.base_url}/orders?api_key=${config.api_key}`)
             .then(response => response.json())
             .then(result => setAllOrders(result.data));
-    }, []);
+    }, [allOrders]);
 
     const listOfOrders = allOrders
         .filter(order => order.status === "Ny")
