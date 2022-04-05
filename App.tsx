@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Pick from './components/Pick';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Base, Typography } from './styles/index.js'
 
 const Tab = createBottomTabNavigator();
 
@@ -16,15 +17,15 @@ const routeIcons = {
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={Base.container}>
       <NavigationContainer>
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
                     let iconName = routeIcons[route.name] || "alert";
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarInactiveTintColor: 'tomato',
-                tabBarInActiveTintColor: 'gray',
+                tabBarInactiveTintColor: 'grey',
+                tabBarActiveTintColor: 'green',
             })}
         >
           <Tab.Screen name="Lager" component={Home} />
@@ -35,9 +36,3 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
