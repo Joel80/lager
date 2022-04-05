@@ -1,5 +1,6 @@
 import { View, Text, Button } from 'react-native';
 import orderModel from '../models/orders';
+import OrderItem from '../interfaces/order_item'
 
 export default function PickList({route, navigation}) {
     const { order } = route.params;
@@ -17,6 +18,7 @@ export default function PickList({route, navigation}) {
                 </Text>
     });
 
+
     return (
         <View>
             <Text>{order.name}</Text>
@@ -25,7 +27,6 @@ export default function PickList({route, navigation}) {
 
             <Text>Produkter:</Text>
             {orderItemsList}
-
             <Button title="Plocka order" onPress={pick}/>
         </View>
     )
