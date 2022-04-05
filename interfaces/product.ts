@@ -10,4 +10,5 @@ export default interface Product {
     specifiers: string;
     location: string;
     price: number;
+    api_key: string;
 };
