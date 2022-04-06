@@ -2,23 +2,15 @@ import { useState, useEffect} from 'react';
 import { View, Text, Button } from 'react-native';
 import config from './../config/config.json';
 import Order from '../interfaces/order';
-import orderModel from '../models/orders';
 
-export default function OrderList( { route, navigation }) {
-    const { reload } = route.params || false;
+export default function OrderList( { navigation }) {
     const [allOrders, setAllOrders] = useState([]);
 
-    if (reload) {
-        reloadOrders();
-    }
-
-    async function reloadOrders() {
-        setAllOrders(await orderModel.getOrders());
-    }
-
     useEffect(() => {
-        reloadOrders();
-    }, []);
+        fetch(`${config.base_url}/orders?api_key=${config.api_key}`)
+            .then(response => response.json())
+            .then(result => setAllOrders(result.data));
+    }, [allOrders]);
 
     const listOfOrders = allOrders
         .filter(order => order.status === "Ny")

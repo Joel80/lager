@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Home from './components/Home';
 import Pick from './components/Pick';
@@ -16,7 +16,6 @@ const routeIcons = {
 };
 
 export default function App() {
-  const [products, setProducts] = useState([]);
   return (
     <SafeAreaView style={Base.container}>
       <NavigationContainer>
@@ -29,12 +28,8 @@ export default function App() {
                 tabBarActiveTintColor: 'green',
             })}
         >
-          <Tab.Screen name="Lager">
-            {() => <Home products = {products} setProducts={setProducts} />}
-          </Tab.Screen>
-          <Tab.Screen name="Plock">
-            {() => <Pick setProducts={setProducts} />}
-          </Tab.Screen> 
+          <Tab.Screen name="Lager" component={Home} />
+          <Tab.Screen name="Plock" component={Pick} /> 
         </Tab.Navigator>
       </NavigationContainer>
       <StatusBar style="auto"/>
