@@ -7,7 +7,7 @@ import productModel from '../models/products';
 
 function StockList({products, setProducts}) {
     
-    useEffect (async () => {
+    useEffect(async () => {
         setProducts(await productModel.getAllProducts());
     }, []);
 
