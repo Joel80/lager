@@ -6,7 +6,8 @@ import Home from './components/Home';
 import Pick from './components/Pick';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Base, Typography } from './styles/index.js'
+import { Base } from './styles/index.js';
+import Product from './interfaces/product';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +17,7 @@ const routeIcons = {
 };
 
 export default function App() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   return (
     <SafeAreaView style={Base.container}>
       <NavigationContainer>
