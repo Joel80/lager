@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, Pressable } from 'react-native';
 import orderModel from '../models/orders';
 import productModel from '../models/products';
+import Product from '../interfaces/product';
+import { Base, Typography, ButtonStyle } from '../styles/index.js';
 
 export default function PickList({route, navigation, setProducts}) {
     const { order } = route.params;
-    const [productList, setProductList] = useState([]);
+    const [productList, setProductList] = useState<Product[]>([]);
 
     useEffect(async () => {
         setProductList(await productModel.getAllProducts());
@@ -21,6 +23,7 @@ export default function PickList({route, navigation, setProducts}) {
 
     const orderItemsList = order.order_items.map((item, index) => {
         return <Text
+                style={[Typography.normal, Base.mainTextColor]}
                 key={index}
                 >
                     {item.name} - {item.amount} - {item.location}
@@ -42,29 +45,34 @@ export default function PickList({route, navigation, setProducts}) {
 
     if (isPickAble) {
         return (
-            <View>
-                <Text>{order.name}</Text>
-                <Text>{order.address}</Text>
-                <Text>{order.zip} {order.city}</Text>
+            <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
+                <Text style={[Typography.header2, Base.mainTextColor]}>Orderdetaljer</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.name}</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.address}</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.zip} {order.city}</Text>
     
-                <Text>Produkter:</Text>
+                <Text style={[Typography.header3, Base.mainTextColor]}>Produkter:</Text>
                 {orderItemsList}
-                <Button title="Plocka order" onPress={pick}/>
+                <Pressable style={ButtonStyle.button} onPress={pick}>
+                    <Text style={ButtonStyle.buttonText}>Plocka order</Text>
+                </Pressable>
             </View>
         )
     }
     
+    //<Button title="Plocka order" onPress={pick}/>
     
     return (
-        <View>
-            <Text>{order.name}</Text>
-            <Text>{order.address}</Text>
-            <Text>{order.zip} {order.city}</Text>
-
-            <Text>Produkter:</Text>
-            {orderItemsList}
-            <Text>Det saknas varor ordern kan inte plockas</Text>
-        </View>
+        <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
+                <Text style={[Typography.header2, Base.mainTextColor]}>Orderdetaljer</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.name}</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.address}</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>{order.zip} {order.city}</Text>
+    
+                <Text style={[Typography.header3, Base.mainTextColor]}>Produkter:</Text>
+                {orderItemsList}
+                <Text style={[Typography.header3, Base.mainTextColor]}>Det saknas varor ordern kan inte plockas</Text>
+            </View>
     )   
     
 }
