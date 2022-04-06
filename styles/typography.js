@@ -13,6 +13,12 @@ export const header3 = {
     marginBottom: 28,
 };
 
+export const orderHeader = {
+    fontSize: 32,
+    marginBottom: 28,
+    padding: 24,
+};
+
 export const normal = {
     fontSize: 18,
     marginBottom: 28,
@@ -23,3 +29,4 @@ export const imageCredit = {
     marginTop: 7,
     marginBottom: 28,
 }
+
