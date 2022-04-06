@@ -4,39 +4,53 @@ import productModel from './products';
 import Product from '../interfaces/product'
 
 const orders = {
-    getOrders: async function getOrders() {
+    getOrders: async function getOrders(): Promise<Order[]> {
         const response = await fetch(`${config.base_url}/orders?api_key=${config.api_key}`);
         const result = await response.json();
 
         return result.data;
     },
     pickOrder: async function pickOrder(order: Order) {
-        //TODO: Minska lagersaldo för de orderrader
-        // som finns i ordern
+        // Remove products from stock
         for (const item of order.order_items) {
             const product: Product = await productModel.getProduct(item.product_id);
             //console.log(product);
-            await productModel.updateStock(product, item.amount);
+            product.stock -= item.amount; 
+            await productModel.updateProduct(product);
         }
         
-
-
-        //TODO: Ändra status för ordern som är packad
-        await this.setOrderStatus(order, 200);
+        // Change order status to 200
+        order.status_id = 200;
+        await this.updateOrder(order);
     },
     setOrderStatus: async function setOrderStatus(order: Order, status_id: number) {
         order.api_key = config.api_key;
         order.status_id = status_id;
-        fetch("https://lager.emilfolino.se/v2/orders", {
+        await fetch(`${config.base_url}/orders`, {
         body: JSON.stringify(order),
         headers: {
-        'content-type': 'application/json'
+            'content-type': 'application/json'
         },
         method: 'PUT'
-        })
-        .then(function (response) {
-
         });
+    },
+    updateOrder: async function updateOrder(order: Order) {
+        order.api_key = config.api_key;
+        try {
+
+            await fetch(`${config.base_url}/orders`, {
+                body: JSON.stringify(order),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'PUT'
+                });
+
+        } catch (error) {
+            console.log("Could not update order");
+            console.log(error);
+        }
+        
     }
 
 };
