@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Button, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import orderModel from '../models/orders';
 import productModel from '../models/products';
 import Product from '../interfaces/product';
@@ -12,8 +12,6 @@ export default function PickList({route, navigation, setProducts}) {
     useEffect(async () => {
         setProductList(await productModel.getAllProducts());
     }, []);
-
-    console.log(productList);
 
     async function pick() {
         await orderModel.pickOrder(order);
@@ -53,14 +51,14 @@ export default function PickList({route, navigation, setProducts}) {
     
                 <Text style={[Typography.header3, Base.mainTextColor]}>Produkter:</Text>
                 {orderItemsList}
-                <Pressable style={ButtonStyle.button} onPress={pick}>
+                <Pressable style={() => [{}, ButtonStyle.button]}
+                    onPress={pick}>
                     <Text style={ButtonStyle.buttonText}>Plocka order</Text>
                 </Pressable>
             </View>
         )
     }
     
-    //<Button title="Plocka order" onPress={pick}/>
     
     return (
         <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
@@ -71,7 +69,7 @@ export default function PickList({route, navigation, setProducts}) {
     
                 <Text style={[Typography.header3, Base.mainTextColor]}>Produkter:</Text>
                 {orderItemsList}
-                <Text style={[Typography.header3, Base.mainTextColor]}>Det saknas varor ordern kan inte plockas</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>Det saknas varor, ordern kan inte plockas</Text>
             </View>
     )   
     

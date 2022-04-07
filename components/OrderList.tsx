@@ -25,8 +25,7 @@ export default function OrderList( { route, navigation }) {
         .filter(order => order.status === "Ny")
         .map((order, index) => {
             return <Pressable
-                style={ButtonStyle.button}
-                //title={order.name}
+                style={() => [{}, ButtonStyle.button]} 
                 key={index}
                 onPress={() => {
                     navigation.navigate('Details', {
