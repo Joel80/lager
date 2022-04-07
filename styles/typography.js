@@ -28,5 +28,5 @@ export const imageCredit = {
     fontSize: 14,
     marginTop: 7,
     marginBottom: 28,
-}
+};
 
