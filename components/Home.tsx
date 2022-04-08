@@ -13,7 +13,7 @@ export default function Home({products, setProducts}) {
           <Text style={[Typography.header2, Base.mainTextColor]}>Trädgård</Text>
           <Image source={greenhouse} style={Base.image} />
           <Text style={[Typography.imageCredit, Base.mainTextColor]}>Photo by Christin Noelle at Unsplash</Text>
-          <Stock route products={products} setProducts={setProducts}/>
+          <Stock products={products} setProducts={setProducts}/>
           <StatusBar style="auto" />
         </View>
       </ScrollView>
