@@ -1,6 +1,5 @@
 import { useState, useEffect} from 'react';
 import { View, Text, Button, Pressable } from 'react-native';
-import config from './../config/config.json';
 import Order from '../interfaces/order';
 import orderModel from '../models/orders';
 import { Base, Typography, ButtonStyle } from '../styles/index.js';
