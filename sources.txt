@@ -1,5 +1,19 @@
+
 Import images
 https://github.com/microsoft/TypeScript-React-Starter/issues/12
 
-Interface
-https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html 
+https://www.codegrepper.com/code-examples/javascript/import+image+in+react+typescript
+
+https://stackoverflow.com/questions/51100401/typescript-image-import 
+
+https://www.typescriptlang.org/docs/handbook/declaration-files/templates/module-d-ts.html
+
+Import with extension tsx
+https://devblogs.microsoft.com/typescript/announcing-typescript-4-2/#d-ts-extensions-cannot-be-used-in-import-paths
+
+
+https://github.com/Microsoft/TypeScript/issues/27481 
+
+Object - types - solving error on product.name, product.stock by telling ts
+product is an object with properties name and stock
+https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
