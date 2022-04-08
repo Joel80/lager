@@ -1,16 +1,17 @@
 export const header1 = {
     fontSize: 38,
-    marginBottom: 28,
+    marginBottom: 14,
 };
 
 export const header2 = {
     fontSize: 32,
-    marginBottom: 28,
+    marginBottom: 14,
 };
 
 export const header3 = {
     fontSize: 24,
-    marginBottom: 28,
+    marginBottom: 14,
+    marginTop: 14,
 };
 
 export const orderHeader = {
@@ -21,7 +22,7 @@ export const orderHeader = {
 
 export const normal = {
     fontSize: 18,
-    marginBottom: 28,
+    marginBottom: 14,
 };
 
 export const imageCredit = {

@@ -9,6 +9,7 @@ export const button = {
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 14,
     /* shadowColor: '#000',
     shadowRadius: 1,
     shadowOffset: { width: 0, height: 4 },
