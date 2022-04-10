@@ -12,8 +12,6 @@ export default function Pick(props) {
             <Stack.Screen name="Details">
                 {(screenProps) => <PickList {...screenProps} setProducts={props.setProducts} />}
             </Stack.Screen> 
-        </Stack.Navigator>
-
-        
+        </Stack.Navigator>  
     );
 }
