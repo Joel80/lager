@@ -33,7 +33,7 @@ const products = {
             method: 'PUT'
         });
     },
-    updateProduct: async function updateProduct(product: Product) {
+    updateProduct: async function updateProduct(product: Partial<Product>) {
         product.api_key = config.api_key;
         try {
             await fetch(`${config.base_url}/products`, {
