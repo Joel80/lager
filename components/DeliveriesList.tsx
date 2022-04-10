@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import { Text, View, Pressable } from 'react-native';
+import { Text, ScrollView, Pressable } from 'react-native';
 import { Typography, Base, ButtonStyle } from "../styles";
 import Delivery from '../interfaces/delivery';
 import deliveryModel from '../models/deliveries'
 
-export default function DeliveriesList({route, navigation}) {
-    const { reload } = route.params || false;
+export default function DeliveriesList({ route, navigation }) {
+    let { reload } = route.params || false;
     const [allDeliveries, setAllDeliveries] = useState<Delivery[]>([]);
-
-  /*   useEffect( async () => {
-        setAllDeliveries(await deliveryModel.getDeliveries());
-
-    }, []); */
-
-    //console.log(allDeliveries)
 
     if (reload) {
         reloadDeliveries();
+        reload = false;
     }
 
     async function reloadDeliveries() {
+        console.log("Reloading deliveries");
         setAllDeliveries(await deliveryModel.getDeliveries());
+        navigation.navigate("List", {reload:false});
     }
 
     useEffect(() => {
@@ -40,16 +36,15 @@ export default function DeliveriesList({route, navigation}) {
     
 
     return (
-        <View style = {[Base.container, Base.base, Base.mainBackgroundColor]}>
-            <Text style={[Typography.header2, Base.mainTextColor]}>Inleveranser</Text>
-            {listOfDeliveries}
-            <Pressable style={() => [{}, ButtonStyle.button]}
-                    onPress= { () => {
-                        navigation.navigate('Form');
-                    }}>
-                    <Text style={ButtonStyle.buttonText}>Gör ny inleverans</Text>
-            </Pressable>
-
-        </View>
+        <ScrollView style = {[Base.container, Base.base, Base.mainBackgroundColor]}>
+                <Text style={[Typography.header2, Base.mainTextColor]}>Inleveranser</Text>
+                {listOfDeliveries}
+                <Pressable style={() => [{}, ButtonStyle.button]}
+                        onPress= { () => {
+                            navigation.navigate('Form');
+                        }}>
+                        <Text style={ButtonStyle.buttonText}>Gör ny inleverans</Text>
+                </Pressable>
+        </ScrollView>
     )
 }

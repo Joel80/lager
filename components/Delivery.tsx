@@ -9,7 +9,9 @@ export default function Delivery(props) {
     return (
         <Stack.Navigator initialRouteName="List">
             <Stack.Screen name="List" component={Deliveries} />
-            <Stack.Screen name="Form" component={DeliveryForm} />
+            <Stack.Screen name="Form">
+                {(screenProps) => <DeliveryForm {...screenProps} setProducts={props.setProducts} />}
+            </Stack.Screen> 
         </Stack.Navigator>  
     );
 }

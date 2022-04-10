@@ -3,10 +3,9 @@ import Delivery from '../interfaces/delivery';
 
 const deliveries = {
     getDeliveries: async function getDeliveries() {
+        console.log("Calling getDeliveries");
         const response = await fetch(`${config.base_url}/deliveries/?api_key=${config.api_key}`);
         const result = await response.json();
-        console.log("Get deliveries");
-        console.log(result.data);
 
         return result.data;
         

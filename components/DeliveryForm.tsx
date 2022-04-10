@@ -7,9 +7,8 @@ import Delivery from '../interfaces/delivery';
 import deliveryModel from '../models/deliveries';
 import productModel from '../models/products';
 import Product from '../interfaces/product';
-import { mainBackgroundColor } from '../styles/base.js';
 
-export default function DeliveryForm({navigation}) {
+export default function DeliveryForm({navigation, setProducts}) {
     const [delivery, setDelivery] = useState<Partial<Delivery>>({});
 
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
@@ -25,18 +24,21 @@ export default function DeliveryForm({navigation}) {
        delivery.delivery_date = dropDownDate.toLocaleDateString('se-SV');
     }, [])
 
-    console.log(`delivery_delivery_date: ${delivery.delivery_date}`);
+    //console.log(`delivery_delivery_date: ${delivery.delivery_date}`);
 
     async function addDelivery() {
         await deliveryModel.addDelivery(delivery)
+
         const updatedProduct = {
             ...currentProduct,
             stock: (currentProduct.stock || 0) + (delivery.amount || 0)
         };
 
         await productModel.updateProduct(updatedProduct);
+
+        setProducts(await productModel.getAllProducts());
         
-        navigation.navigate("List", {reload: true})
+        navigation.navigate("List", {reload: true});
     }
 
     function ProductDropDown(props) {
