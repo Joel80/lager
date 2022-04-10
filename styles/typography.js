@@ -31,3 +31,9 @@ export const imageCredit = {
     marginBottom: 28,
 };
 
+export const label = {
+    fontSize: 18,
+    marginBottom: 10,
+    marginTop: 20,
+};
+
