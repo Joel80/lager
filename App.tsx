@@ -39,7 +39,7 @@ export default function App() {
             {() => <Pick setProducts={setProducts} />}
           </Tab.Screen> 
           <Tab.Screen name="Leveranser">
-            {() => <Delivery />}
+            {() => <Delivery setProducts={setProducts}/>}
           </Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
