@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Text, ScrollView, Pressable } from 'react-native';
-import { Typography, Base, ButtonStyle } from "../styles";
+import { Text, ScrollView, Pressable, View } from 'react-native';
+import { Typography, Base, ButtonStyle, DeliveryListStyle } from "../styles";
 import Delivery from '../interfaces/delivery';
 import deliveryModel from '../models/deliveries'
 
@@ -29,9 +29,21 @@ export default function DeliveriesList({ route, navigation }) {
         listOfDeliveries = <Text style={[Typography.normal, Base.mainTextColor]}>Inga tidigare inleveranser</Text>
     } else {
         listOfDeliveries = allDeliveries.map((delivery, index) => 
-        <Text style={[Typography.normal, Base.mainTextColor]} key={index}>
-            { delivery.product_name } - {delivery.amount} - { delivery.delivery_date } - { delivery.comment}
-        </Text>);
+        <View style={DeliveryListStyle.listStyle} key={index}>
+            <Text style={[Typography.normal, Base.mainTextColor]} >
+                Datum: { delivery.delivery_date }
+            </Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>
+               Produkt: { delivery.product_name }
+            </Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>
+                Antal: {delivery.amount} 
+            </Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>
+               Kommentar: { delivery.comment}
+            </Text>
+        </View>
+        );
     }
     
 
