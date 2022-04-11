@@ -32,7 +32,7 @@ export const imageCredit = {
 };
 
 export const label = {
-    fontSize: 18,
+    fontSize: 24,
     marginBottom: 10,
     marginTop: 20,
 };
