@@ -2,29 +2,106 @@ import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, Pressable, View, Button } from "react-native";
-import { Base, Typography, Forms, ButtonStyle } from '../styles/index.js';
+import { Base, Typography, Forms, ButtonStyle, DatePickerStyle, PickerStyle } from '../styles/index.js';
 import Delivery from '../interfaces/delivery';
 import deliveryModel from '../models/deliveries';
 import productModel from '../models/products';
 import Product from '../interfaces/product';
+
+
+function ProductDropDown(props) {
+    const [products, setProducts] = useState<Product[]>([]);
+    let productsHash: any = {};
+
+    useEffect(async () => {
+        setProducts(await productModel.getAllProducts());
+    }, []);
+
+    const itemsList = products.map((prod: Product, index: number) => {
+        productsHash[prod.id] = prod;
+        return <Picker.Item 
+                key={index} 
+                label={prod.name} 
+                value={prod.id}
+                color='#357960'
+                />  
+    });
+
+    return (
+        <Picker
+            style={PickerStyle.pickerStyle}
+            selectedValue={props.delivery?.product_id}
+            onValueChange={(itemValue) => {
+                props.setDelivery({...props.delivery, product_id: itemValue});
+                props.setCurrentProduct(productsHash[itemValue]);
+            }}>
+            {itemsList}
+        </Picker>
+    );
+}
+
+function DateDropDown(props) {
+
+    const [dropDownDate, setDropDownDate] = useState<Date>(new Date());
+
+    const [show, setShow] = useState<Boolean>(false);
+    
+    const showDatePicker = () => {
+        setShow(true);
+    };
+
+ 
+    return (
+        <View>
+            {Platform.OS === "android" && (
+                <Pressable
+                    style={() => [{}, ButtonStyle.button]}
+                    onPress={showDatePicker}
+                >
+                    <Text style={ButtonStyle.buttonText}>Visa datumväljare</Text>
+                </Pressable>
+            )}
+
+            {(show || Platform.OS === "ios") && (
+                <DateTimePicker
+                    style={DatePickerStyle.datePickerStyle}
+                    display='default'
+                    textColor='#357960'
+                    
+                    onChange={(event, date) => {
+                        setDropDownDate(date);
+                        props.setDelivery({
+                            ...props.delivery,
+                            delivery_date: date.toLocaleDateString('se-SV'),
+                        });
+
+                        setShow(false);
+                    }}
+
+                    value={dropDownDate}  
+                     
+                />
+            )}
+            
+        </View>
+        
+    );
+}
+
 
 export default function DeliveryForm({navigation, setProducts}) {
     const [delivery, setDelivery] = useState<Partial<Delivery>>({});
 
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
 
-    const [dropDownDate, setDropDownDate] = useState<Date>(new Date());
+    //console.log(`Drop down date: ${dropDownDate}`);
 
-    const [show, setShow] = useState<Boolean>(false);
-
-
-    console.log(`Drop down date: ${dropDownDate}`);
-
+    // Set delivery.delivery_date to todays date
     useEffect(() => {
-       delivery.delivery_date = dropDownDate.toLocaleDateString('se-SV');
+       delivery.delivery_date = new Date().toLocaleDateString('se-SV');
     }, [])
 
-    //console.log(`delivery_delivery_date: ${delivery.delivery_date}`);
+    console.log(`delivery_delivery_date: ${delivery.delivery_date}`);
 
     async function addDelivery() {
         await deliveryModel.addDelivery(delivery)
@@ -41,76 +118,7 @@ export default function DeliveryForm({navigation, setProducts}) {
         navigation.navigate("List", {reload: true});
     }
 
-    function ProductDropDown(props) {
-        const [products, setProducts] = useState<Product[]>([]);
-        let productsHash: any = {};
-
-        useEffect(async () => {
-            setProducts(await productModel.getAllProducts());
-        }, []);
-
-        const itemsList = products.map((prod: Product, index: number) => {
-            productsHash[prod.id] = prod;
-            return <Picker.Item 
-                    key={index} 
-                    label={prod.name} 
-                    value={prod.id}
-                    color='#357960'
-                    />  
-        });
-
-        return (
-            <Picker
-                style={[Base.secondaryBackgroundColor, Base.secondayTextColor ]}
-                selectedValue={props.delivery?.product_id}
-                onValueChange={(itemValue) => {
-                    props.setDelivery({...props.delivery, product_id: itemValue});
-                    props.setCurrentProduct(productsHash[itemValue]);
-                }}>
-                {itemsList}
-            </Picker>
-        );
-    }
-
-    function DateDropDown(props) {
-        const showDatePicker = () => {
-            setShow(true);
-        };
-
-
-        return (
-            <View>
-                {Platform.OS === "android" && (
-                    <Pressable
-                        style={() => [{}, ButtonStyle.button]}
-                        onPress={showDatePicker}
-                    >
-                        <Text style={ButtonStyle.buttonText}>Visa datumväljare</Text>
-                    </Pressable>
-                )}
-
-                {(show || Platform.OS === "ios") && (
-                    <DateTimePicker
-                        style={{backgroundColor:'#f2f0e6', marginBottom: 28}}
-                        
-                        onChange={(event, date) => {
-                            setDropDownDate(date);
-                            props.setDelivery({
-                                ...props.delivery,
-                                delivery_date: date.toLocaleDateString('se-SV'),
-                            });
-
-                            setShow(false);
-                        }}
-
-                        value={dropDownDate}   
-                    />
-                )}
-            </View>
-            
-        );
-    }
-
+    
     return (
         <ScrollView style={[Base.base, Base.container, Base.mainBackgroundColor]}>
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -148,8 +156,6 @@ export default function DeliveryForm({navigation, setProducts}) {
                     }}
                     value={delivery?.comment}
                 />
-
-            
                 <Pressable
                         style={() => [{}, ButtonStyle.button]}
                         onPress={ () => {
