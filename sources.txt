@@ -17,3 +17,6 @@ https://github.com/Microsoft/TypeScript/issues/27481
 Object - types - solving error on product.name, product.stock by telling ts
 product is an object with properties name and stock
 https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
+
+Cannot change color of dateTimePicker
+https://github.com/react-native-datetimepicker/datetimepicker/issues/537 
