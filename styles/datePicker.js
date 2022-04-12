@@ -1,5 +1,3 @@
-import { setStatusBarHidden } from "expo-status-bar";
-
 export const datePickerStyle = {
     backgroundColor: '#f2f0e6',
     overflow: 'hidden',
