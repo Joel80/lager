@@ -20,10 +20,10 @@ function ProductDropDown(props) {
     const itemsList = products.map((prod: Product, index: number) => {
         productsHash[prod.id] = prod;
         return <Picker.Item 
-                key={index} 
-                label={prod.name} 
-                value={prod.id}
-                color='#357960'
+                    key={index} 
+                    label={prod.name} 
+                    value={prod.id}
+                    color='#357960'
                 />  
     });
 
@@ -94,14 +94,22 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
 
+    const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
+
+    /* useEffect(() => {
+        delivery.delivery_date = new Date().toLocaleDateString('se-SV');
+     }, [showErrorMessage]) */
+
+    console.log(delivery);
+
+
     //console.log(`Drop down date: ${dropDownDate}`);
 
-    // Set delivery.delivery_date to todays date
-    useEffect(() => {
-       delivery.delivery_date = new Date().toLocaleDateString('se-SV');
-    }, [])
+    console.log(`delivery.delivery_date: ${delivery.delivery_date}`);
 
-    console.log(`delivery_delivery_date: ${delivery.delivery_date}`);
+    console.log(`delivery.product_id: ${delivery.product_id}`);
+
+    console.log(`delivery.amount: ${delivery.amount}`);
 
     async function addDelivery() {
         await deliveryModel.addDelivery(delivery)
@@ -124,31 +132,31 @@ export default function DeliveryForm({navigation, setProducts}) {
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <Text style={[Typography.header2, Base.mainTextColor]}>Ny inleverans</Text>
                 
-                <Text style={[Typography.label, Base.mainTextColor]}>Produkt</Text>
+                <Text style={[Typography.label, Base.mainTextColor]}>Produkt (obligatoriskt)</Text>
                 <ProductDropDown
                     delivery={delivery}
                     setDelivery={setDelivery}
                     setCurrentProduct={setCurrentProduct}
                 />
 
-                <Text style={[Typography.label, Base.mainTextColor]}>Antal</Text>
+                <Text style={[Typography.label, Base.mainTextColor]}>Antal (obligatoriskt)</Text>
                 <TextInput 
                     style={Forms.input}
                     onChangeText={(content: string) => {
-                        setDelivery({...delivery, amount: parseInt(content)})
+                        setDelivery({...delivery, amount: parseInt(content) || undefined})
                     }}
                     value={delivery?.amount?.toString()}
                     keyboardType="numeric"
                     selectionColor='#357960'
                 />
 
-                <Text style={[Typography.label, Base.mainTextColor]}>Datum</Text>
+                <Text style={[Typography.label, Base.mainTextColor]}>Datum (obligatoriskt)</Text>
                     <DateDropDown
                         delivery={delivery}
                         setDelivery={setDelivery}
                     />
 
-                <Text style={[Typography.label, Base.mainTextColor]}>Kommentar</Text>
+                <Text style={[Typography.label, Base.mainTextColor]}>Kommentar (valfritt)</Text>
                 <TextInput 
                     style={[Forms.input]}
                     onChangeText={(content: string) => {
@@ -156,10 +164,21 @@ export default function DeliveryForm({navigation, setProducts}) {
                     }}
                     value={delivery?.comment}
                 />
+
+                {(showErrorMessage) && ( 
+                    <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält!</Text>
+                )}
+                
+
                 <Pressable
                         style={() => [{}, ButtonStyle.button]}
                         onPress={ () => {
-                            addDelivery();
+                            if(delivery.product_id !== undefined && delivery.amount !== undefined && delivery.delivery_date !== undefined) {
+                                setShowErrorMessage(false);
+                                addDelivery();
+                            } else {
+                                setShowErrorMessage(true);
+                            }
                         }}
                     >
                         <Text style={ButtonStyle.buttonText}>Gör inleverans</Text>
