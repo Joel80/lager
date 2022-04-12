@@ -1,1 +1,3 @@
-
+Write assignment text
+Check datepicker - is there a way to change color
+Check assignment - everything ok?
