@@ -66,7 +66,6 @@ function DateDropDown(props) {
                 <DateTimePicker
                     style={DatePickerStyle.datePickerStyle}
                     display='default'
-                    textColor='#357960'
                     
                     onChange={(event, date) => {
                         setDropDownDate(date);
@@ -95,10 +94,6 @@ export default function DeliveryForm({navigation, setProducts}) {
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
-
-    /* useEffect(() => {
-        delivery.delivery_date = new Date().toLocaleDateString('se-SV');
-     }, [showErrorMessage]) */
 
     console.log(delivery);
 
