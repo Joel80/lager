@@ -20,3 +20,4 @@ https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
 
 Cannot change color of dateTimePicker
 https://github.com/react-native-datetimepicker/datetimepicker/issues/537 
+https://github.com/react-native-datetimepicker/datetimepicker/issues/308
