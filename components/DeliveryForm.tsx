@@ -44,6 +44,8 @@ function DateDropDown(props) {
 
     const [dropDownDate, setDropDownDate] = useState<Date>(new Date());
 
+    console.log(`dropdowndate: ${dropDownDate}`)
+
     const [show, setShow] = useState<Boolean>(false);
     
     const showDatePicker = () => {
@@ -68,15 +70,19 @@ function DateDropDown(props) {
                     display='default'
                     
                     onChange={(event, date) => {
-                        setDropDownDate(date);
-                        props.setDelivery({
-                            ...props.delivery,
-                            delivery_date: date.toLocaleDateString('se-SV'),
-                        });
+                        console.log("in on change");
+                        console.log(date);
+                        if(date !== undefined) {
+                            setDropDownDate(date);
+                            props.setDelivery({
+                                ...props.delivery,
+                                delivery_date: date.toLocaleDateString('se-SV'),
+                            });
+                        }
 
                         setShow(false);
                     }}
-
+                    
                     value={dropDownDate}  
                      
                 />
