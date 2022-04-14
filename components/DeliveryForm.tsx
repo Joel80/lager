@@ -180,7 +180,7 @@ export default function DeliveryForm({navigation, setProducts}) {
 
                 {(showErrorMessage) && (
                     <View>
-                        <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält: </Text>
+                        <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält! </Text>
                     </View>
                 )}
                 
