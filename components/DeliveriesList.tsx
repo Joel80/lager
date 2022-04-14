@@ -55,7 +55,7 @@ export default function DeliveriesList({ route, navigation }) {
                         onPress= { () => {
                             navigation.navigate('Form');
                         }}>
-                        <Text style={ButtonStyle.buttonText}>Gör ny inleverans</Text>
+                        <Text style={ButtonStyle.buttonText}>Ny inleverans</Text>
                 </Pressable>
         </ScrollView>
     )
