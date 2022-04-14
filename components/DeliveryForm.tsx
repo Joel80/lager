@@ -13,8 +13,11 @@ function ProductDropDown(props) {
     const [products, setProducts] = useState<Product[]>([]);
     let productsHash: any = {};
 
-    useEffect(async () => {
-        setProducts(await productModel.getAllProducts());
+    useEffect(() => {
+            (async () => {
+                setProducts(await productModel.getAllProducts());
+            })();
+        
     }, []);
 
     const itemsList = products.map((prod: Product, index: number) => {
@@ -30,8 +33,9 @@ function ProductDropDown(props) {
     return (
         <Picker
             style={PickerStyle.pickerStyle}
-            selectedValue={props.delivery?.product_id}
+            selectedValue={props.delivery?.product_id || "Select a value"} 
             onValueChange={(itemValue) => {
+                console.log(`selected prouct: ${itemValue}`)
                 props.setDelivery({...props.delivery, product_id: itemValue});
                 props.setCurrentProduct(productsHash[itemValue]);
             }}>
@@ -101,6 +105,21 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
+    //const [productList, setProductList] = useState<Product[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            const productList = await productModel.getAllProducts();
+            const firstProduct: Product = productList[0];
+            delivery.product_id = firstProduct.id;
+            //setDelivery({...delivery, product_id: firstProduct.id});
+            setDelivery({...delivery, delivery_date: new Date().toLocaleDateString('se-SV')});
+            
+        })();
+    }, []);
+
+
+    
     console.log(delivery);
 
 
