@@ -35,7 +35,7 @@ function ProductDropDown(props) {
             style={PickerStyle.pickerStyle}
             selectedValue={props.delivery?.product_id || "Select a value"} 
             onValueChange={(itemValue) => {
-                console.log(`selected prouct: ${itemValue}`)
+                //console.log(`selected prouct: ${itemValue}`)
                 props.setDelivery({...props.delivery, product_id: itemValue});
                 props.setCurrentProduct(productsHash[itemValue]);
             }}>
@@ -48,7 +48,7 @@ function DateDropDown(props) {
 
     const [dropDownDate, setDropDownDate] = useState<Date>(new Date());
 
-    console.log(`dropdowndate: ${dropDownDate}`)
+    //console.log(`dropdowndate: ${dropDownDate}`)
 
     const [show, setShow] = useState<Boolean>(false);
     
@@ -74,14 +74,15 @@ function DateDropDown(props) {
                     display='default'
                     
                     onChange={(event, date) => {
-                        console.log("in on change");
-                        console.log(date);
+
                         if(date !== undefined) {
                             setDropDownDate(date);
                             props.setDelivery({
                                 ...props.delivery,
                                 delivery_date: date.toLocaleDateString('se-SV'),
                             });
+
+                            //console.log(delivery)
                         }
 
                         setShow(false);
@@ -105,33 +106,22 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
-    let missingFields;
-    //const [productList, setProductList] = useState<Product[]>([]);
-
     useEffect(() => {
         (async () => {
             const productList = await productModel.getAllProducts();
-            console.log(productList);
             const firstProduct: Product = productList[0];
-            console.log(firstProduct);
-            setDelivery({...delivery, product_id: firstProduct.id});
-            setDelivery({...delivery, delivery_date: new Date().toLocaleDateString('se-SV')});
+            setDelivery({...delivery, product_id: firstProduct.id, delivery_date: new Date().toLocaleDateString('se-SV')});
             setCurrentProduct(firstProduct);
-            
         })();
+
     }, []);
 
+    //console.log(delivery);
 
-    
-    console.log(delivery);
-
-
+    //console.log(delivery);
     //console.log(`Drop down date: ${dropDownDate}`);
-
     //console.log(`delivery.delivery_date: ${delivery.delivery_date}`);
-
     //console.log(`delivery.product_id: ${delivery.product_id}`);
-
     //console.log(`delivery.amount: ${delivery.amount}`);
 
     async function addDelivery() {
@@ -191,7 +181,6 @@ export default function DeliveryForm({navigation, setProducts}) {
                 {(showErrorMessage) && (
                     <View>
                         <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält: </Text>
-                        { missingFields }
                     </View>
                 )}
                 
