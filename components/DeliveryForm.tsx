@@ -105,15 +105,18 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
+    let missingFields;
     //const [productList, setProductList] = useState<Product[]>([]);
 
     useEffect(() => {
         (async () => {
             const productList = await productModel.getAllProducts();
+            console.log(productList);
             const firstProduct: Product = productList[0];
-            delivery.product_id = firstProduct.id;
-            //setDelivery({...delivery, product_id: firstProduct.id});
+            console.log(firstProduct);
+            setDelivery({...delivery, product_id: firstProduct.id});
             setDelivery({...delivery, delivery_date: new Date().toLocaleDateString('se-SV')});
+            setCurrentProduct(firstProduct);
             
         })();
     }, []);
@@ -125,11 +128,11 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     //console.log(`Drop down date: ${dropDownDate}`);
 
-    console.log(`delivery.delivery_date: ${delivery.delivery_date}`);
+    //console.log(`delivery.delivery_date: ${delivery.delivery_date}`);
 
-    console.log(`delivery.product_id: ${delivery.product_id}`);
+    //console.log(`delivery.product_id: ${delivery.product_id}`);
 
-    console.log(`delivery.amount: ${delivery.amount}`);
+    //console.log(`delivery.amount: ${delivery.amount}`);
 
     async function addDelivery() {
         await deliveryModel.addDelivery(delivery)
@@ -185,8 +188,11 @@ export default function DeliveryForm({navigation, setProducts}) {
                     value={delivery?.comment}
                 />
 
-                {(showErrorMessage) && ( 
-                    <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält!</Text>
+                {(showErrorMessage) && (
+                    <View>
+                        <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält: </Text>
+                        { missingFields }
+                    </View>
                 )}
                 
 
