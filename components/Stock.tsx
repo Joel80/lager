@@ -4,6 +4,8 @@ import config from '../config/config.json';
 import Product from '../interfaces/product';
 import { Base, Typography } from '../styles/index.js'
 import productModel from '../models/products';
+import { DataTable } from 'react-native-paper';
+
 
 function StockList({products, setProducts}) {
     
@@ -11,20 +13,33 @@ function StockList({products, setProducts}) {
         setProducts(await productModel.getAllProducts());
     }, []);
 
-    const list = products.map((product: Product, index: number) => <Text style={[Typography.normal, Base.mainTextColor]} key={index}>{ product.name } - { product.stock }</Text>);
+    const list = products.map((product: Product, index: number) => {
+        return (
+            <DataTable.Row key={index}>
+                <DataTable.Cell><Text style={[Typography.normal, Base.mainTextColor]}>{product.name}</Text></DataTable.Cell>
+                <DataTable.Cell numeric><Text style={[Typography.normal, Base.mainTextColor]}>{product.stock}</Text></DataTable.Cell>
+            </DataTable.Row>
+        );
+    });
 
     return (
-        <View>
+        <DataTable>
+            <DataTable.Header>
+                <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Produkt</Text></DataTable.Title>
+                <DataTable.Title numeric><Text style={[Typography.header3, Base.mainTextColor]}>Antal i lager</Text></DataTable.Title>
+            </DataTable.Header>
             {list}
-        </View>
-);
+        </DataTable>
+    );
+
+
     
 }
 
 export default function Stock({products, setProducts}) {
     return (
         <View>
-            <Text style={[Typography.header3, Base.mainTextColor]}>Lagerförteckning</Text>
+            <Text style={[Typography.header2, Base.mainTextColor]}>Lagerförteckning</Text>
             <StockList products={products} setProducts={setProducts} />
         </View>
     );
