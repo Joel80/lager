@@ -1,3 +1,4 @@
-Write assignment text
-Check datepicker - is there a way to change color
-Check assignment - everything ok?
+Continue from Authfields:
+https://dbwebb.se/kunskap/login-med-jwt-v2 
+Fix Register component
+Fix Invoices component
