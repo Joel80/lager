@@ -1,5 +1,3 @@
-import { DatePickerIOSComponent } from "react-native";
-
 export default interface Delivery {
     id: number;
     product_id: number;
