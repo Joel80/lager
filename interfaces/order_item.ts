@@ -4,4 +4,5 @@ export default interface OrderItem {
     amount: number,
     name: string,
     stock: number,
+    price: number,
 };
