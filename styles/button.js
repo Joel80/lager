@@ -16,6 +16,10 @@ export const button = {
     shadowOpacity: 0.5, */
 };
 
+export const link = {
+    backgroundColor: '#f2f0e6',
+};
+
 export const pressedButton = {
     backgroundColor: '#357960',
     
