@@ -9,9 +9,10 @@ import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Base } from './styles/index.js';
 import Product from './interfaces/product';
+import InvoiceInterface from './interfaces/invoice';
 import authModel from './models/auth';
 import Auth from './components/auth/Auth';
-import Invoices from './components/Invoices';
+import Invoice from './components/Invoice';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,12 +20,13 @@ const routeIcons = {
     "Lager": "home",
     "Plock": "list",
     "Leveranser": "basket",
-    "Logga in": "lock-open",
+    "Logga in": "lock-closed",
     "Faktura": "receipt"
 };
 
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [invoices, setInvoices] = useState<InvoiceInterface[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   
   useEffect(async () => {
@@ -54,7 +56,7 @@ export default function App() {
           </Tab.Screen>
           {isLoggedIn ?
             <Tab.Screen name="Faktura">
-              { () => <Invoices setIsLoggedIn={setIsLoggedIn} />} 
+              { () => <Invoice setIsLoggedIn={setIsLoggedIn} setInvoices={setInvoices} />} 
             </Tab.Screen> :
             <Tab.Screen name="Logga in">
               { () => <Auth setIsLoggedIn={setIsLoggedIn}/>}
