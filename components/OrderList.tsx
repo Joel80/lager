@@ -20,7 +20,6 @@ export default function OrderList( { route, navigation }) {
     }
 
     useEffect(() => {
-        
         reloadOrders();
     }, []);
 
