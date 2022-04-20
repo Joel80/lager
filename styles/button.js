@@ -17,7 +17,10 @@ export const button = {
 };
 
 export const link = {
-    backgroundColor: '#f2f0e6',
+    color: '#fdfdfd',
+    fontSize: 18,
+    marginBottom: 14,
+    padding: 24,
 };
 
 export const pressedButton = {
@@ -28,4 +31,11 @@ export const pressedButton = {
 export const buttonText = {
     color: '#357960',
     fontSize: 18,
+};
+
+export const invoiceButtonText = {
+    color: '#fdfdfd',
+    fontSize: 18,
+    marginBottom: 14,
+    padding: 8
 };

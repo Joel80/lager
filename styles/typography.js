@@ -20,6 +20,19 @@ export const orderHeader = {
     padding: 24,
 };
 
+export const invoiceHeader = {
+    fontSize: 20,
+    marginBottom: 8,
+    padding: 8,
+};
+
+
+export const invoiceText = {
+    fontSize: 18,
+    marginBottom: 14,
+    padding: 8,
+};
+
 export const normal = {
     fontSize: 18,
     marginBottom: 14,
