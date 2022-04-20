@@ -4,6 +4,12 @@ import productModel from './products';
 import Product from '../interfaces/product';
 
 const orders = {
+    getOrder: async function getOrder(order_id: number): Promise<Order> {
+        const response = await fetch(`${config.base_url}/orders/${order_id}?api_key=${config.api_key}`);
+        const result = await response.json();
+
+        return result.data;
+    },
     getOrders: async function getOrders(): Promise<Order[]> {
         const response = await fetch(`${config.base_url}/orders?api_key=${config.api_key}`);
         const result = await response.json();
