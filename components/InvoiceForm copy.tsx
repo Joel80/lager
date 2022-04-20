@@ -6,7 +6,9 @@ import { Base, Typography, Forms, ButtonStyle, DatePickerStyle, PickerStyle } fr
 import Invoice from '../interfaces/invoice';
 import invoiceModel from '../models/invoices';
 import orderModel from '../models/orders';
+import authModel from '../models/auth';
 import Order from '../interfaces/order';
+import productModel from '../models/products';
 
 function zeroPad(number: number): string {
     if (number < 10) {
@@ -52,6 +54,7 @@ function OrdersToInvoiceDropDown(props) {
             selectedValue={props.invoice?.order_id} 
             onValueChange={(itemValue) => {
                 props.setInvoice({...props.invoice, order_id: itemValue});
+                props.setCurrentOrder(orderHash[itemValue]);
             }}>
             {ordersToInvoiceList}
         </Picker>
@@ -93,7 +96,7 @@ function DateDropDown(props) {
                             setDropDownDate(date);
                             props.setInvoice({
                                 ...props.invoice,
-                                creation_date: formatDate(date),
+                                due_date: formatDate(date),
                             });
 
                             //console.log(delivery)
@@ -117,6 +120,7 @@ function DateDropDown(props) {
 export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
     const [invoice, setInvoice] = useState<Partial<Invoice>>({});
 
+    const [currentOrder, setCurrentOrder] = useState<Partial<Order>>({});
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
@@ -132,13 +136,24 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
 
             if (orderList.length !== 0) {
                 const firstOrder: Order = orderList[0];
-                
+                let invoiceTotalPrice: number = 0;
+
+                for (const item of firstOrder.order_items) {
+                    const product = productModel.getProduct(item.product_id);
+                    invoiceTotalPrice += item.amount * item.price
+                }
+
                 setInvoice(
                     {
                         ...invoice, order_id: firstOrder.id, 
-                        creation_date: formatDate(new Date()), 
+                        creation_date: new Date().toLocaleDateString('se-SV'), 
+                        due_date: new Date().toLocaleDateString('se-SV'),
+                        total_price: invoiceTotalPrice
+
                     }
                 )
+
+                setCurrentOrder(firstOrder);
 
                 showInvoiceForm();
             }
@@ -150,9 +165,28 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
     
     async function addInvoice() {
 
+        let invoiceTotalPrice: number = 0;
+
+        console.log(currentOrder);
+
+        for (const item of currentOrder.order_items) {
+            invoiceTotalPrice += item.amount * item.price
+        }
+
+        setInvoice({...invoice, total_price: invoiceTotalPrice})
+
         await invoiceModel.addInvoice(invoice);
 
         setInvoices(await invoiceModel.getInvoices());
+
+        const updatedOrder = {
+            ...currentOrder,
+            status_id: 600
+        };
+
+        console.log(`updated order: ${updatedOrder}`);
+
+        await orderModel.updateOrder(updatedOrder);
         
         navigation.navigate("List", {reload: true});
     }
@@ -167,9 +201,10 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
                     <OrdersToInvoiceDropDown
                         invoice={invoice}
                         setInvoice={setInvoice}
+                        setCurrentOrder={setCurrentOrder}
                     />
     
-                    <Text style={[Typography.label, Base.mainTextColor]}>Fakturadatum (obligatoriskt)</Text>
+                    <Text style={[Typography.label, Base.mainTextColor]}>Förfallodatum (obligatoriskt)</Text>
                         <DateDropDown
                             invoice={invoice}
                             setInvoice={setInvoice}
@@ -185,7 +220,7 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
                     <Pressable
                             style={() => [{}, ButtonStyle.button]}
                             onPress={ () => {
-                                if(invoice.order_id !== undefined && invoice.creation_date !== undefined) {
+                                if(invoice.order_id !== undefined && invoice.due_date !== undefined) {
                                     setShowErrorMessage(false);
                                     addInvoice();
                                 } else {
