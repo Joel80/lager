@@ -39,14 +39,6 @@ export default function InvoiceDetails({route, setIsLoggedIn, navigation}) {
             <Text style={[Typography.normal, Base.mainTextColor]}>
                Förfallodatum: { invoice.due_date}
             </Text>
-
-            <Pressable style={() => [{}, ButtonStyle.button]}
-                onPress= { () => {
-                    authModel.logout();
-                    setIsLoggedIn(false);
-                }}>
-                <Text style={ButtonStyle.buttonText}>Logga ut</Text>
-            </Pressable>       
         </ScrollView>
     );
 }

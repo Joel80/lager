@@ -28,7 +28,7 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
 
     let invoicesList;
 
-    console.log(`All invoices: ${allInvoices}`);
+    //console.log(`All invoices: ${allInvoices}`);
 
     if (allInvoices.length === 0) {
         invoicesList = false;
@@ -37,21 +37,18 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
         invoicesList = allInvoices.map((invoice: Invoice, index: number) => {
             return (
                 <DataTable.Row key={index}>
-                    <DataTable.Cell><Text style={[Typography.normal, Base.mainTextColor]}>{invoice.name}</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text style={[Typography.normal, Base.mainTextColor]}>{invoice.id}</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text style={[Typography.normal, Base.mainTextColor]}>{invoice.order_id}</Text></DataTable.Cell>
-                    <DataTable.Cell numeric><Text style={[Typography.normal, Base.mainTextColor]}>{invoice.total_price}</Text></DataTable.Cell>
-                    <DataTable.Cell>
-                        
-                        <Pressable style={() => [{}, ButtonStyle.link]}
-                            onPress= { () => {
-                                navigation.navigate('Details', {
-                                    invoice: invoice
-                                })
-                            }}>
-                            <Text style={ButtonStyle.buttonText}>Detaljer</Text>
-                        </Pressable>
-                        
+                    <DataTable.Cell><Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.order_id}</Text></DataTable.Cell>
+                    <DataTable.Cell><Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.total_price} kr</Text></DataTable.Cell>
+                    <DataTable.Cell
+                    
+                        onPress= { () => {
+                            navigation.navigate('Details', {
+                                invoice: invoice
+                            })
+
+                        }}
+                    >
+                        <Text style={[Typography.invoiceText, Base.mainTextColor]}>Visa</Text>
                     </DataTable.Cell>
                 </DataTable.Row>
             );  
@@ -66,11 +63,9 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
                 <Text style={[Typography.header2, Base.mainTextColor]}>Fakturor</Text>
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Namn</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Faktura-id</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Order-id</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Totalpris</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.header3, Base.mainTextColor]}>Detaljer</Text></DataTable.Title>
+                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Order</Text></DataTable.Title>
+                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Totalpris</Text></DataTable.Title>
+                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Detaljer</Text></DataTable.Title>
                     </DataTable.Header>
                     {invoicesList}
                 </DataTable>

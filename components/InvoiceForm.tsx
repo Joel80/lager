@@ -26,40 +26,28 @@ function OrdersToInvoiceDropDown(props) {
     .filter(order => order.status === "Skickad")
     .map((order: Order, index: number) => {
         orderHash[order.id] = order;
+        const itemLabel = order.name + " - " + order.id.toString(); 
         return <Picker.Item 
                     key={index} 
-                    label={order.id.toString()}  
+                    label= {itemLabel}
                     value={order.id}
                     color='#357960'
                 />  
     });
 
-    if (ordersToInvoiceList) {
+   
 
-        return (
-            <Picker
-                style={PickerStyle.pickerStyle}
-                selectedValue={props.invoice?.order_id} 
-                onValueChange={(itemValue) => {
-                    props.setInvoice({...props.invoice, order_id: itemValue});
-                    props.setCurrentOrder(orderHash[itemValue]);
-                }}>
-                {ordersToInvoiceList}
-            </Picker>
-        );
-
-    } else {
-        return (
-            <Picker
-                style={PickerStyle.pickerStyle}
-                selectedValue={null} 
-                onValueChange={(itemValue) => {
-                }}>
-                {"Inga ordrar att fakturera"}
-            </Picker>
-        );
-    }
-
+    return (
+        <Picker
+            style={PickerStyle.pickerStyle}
+            selectedValue={props.invoice?.order_id} 
+            onValueChange={(itemValue) => {
+                props.setInvoice({...props.invoice, order_id: itemValue});
+                props.setCurrentOrder(orderHash[itemValue]);
+            }}>
+            {ordersToInvoiceList}
+        </Picker>
+    );
    
 }
 
@@ -125,6 +113,12 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
 
     const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
+    const [showForm, setShowForm] = useState<Boolean>(false);
+
+    const showInvoiceForm = () => {
+        setShowForm(true);
+    }
+
     useEffect(() => {
         (async () => {
             const orderList = (await orderModel.getOrders()).filter(order => order.status === "Skickad");
@@ -149,6 +143,8 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
                 )
 
                 setCurrentOrder(firstOrder);
+
+                showInvoiceForm();
             }
             
         })();
@@ -185,55 +181,56 @@ export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
         navigation.navigate("List", {reload: true});
     }
 
-    
-    return (
-        <ScrollView style={[Base.base, Base.container, Base.mainBackgroundColor]}>
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <Text style={[Typography.header2, Base.mainTextColor]}>Ny faktura</Text>
-                
-                <Text style={[Typography.label, Base.mainTextColor]}>Produkt (obligatoriskt)</Text>
-                <OrdersToInvoiceDropDown
-                    invoice={invoice}
-                    setInvoice={setInvoice}
-                    setCurrentOrder={setCurrentOrder}
-                />
-
-                <Text style={[Typography.label, Base.mainTextColor]}>Förfallodatum (obligatoriskt)</Text>
-                    <DateDropDown
+    if (showForm) {
+        return (
+            <ScrollView style={[Base.base, Base.container, Base.mainBackgroundColor]}>
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    <Text style={[Typography.header2, Base.mainTextColor]}>Ny faktura</Text>
+                    
+                    <Text style={[Typography.label, Base.mainTextColor]}>Välj order att fakturera (obligatoriskt)</Text>
+                    <OrdersToInvoiceDropDown
                         invoice={invoice}
                         setInvoice={setInvoice}
+                        setCurrentOrder={setCurrentOrder}
                     />
-
-                {(showErrorMessage) && (
-                    <View>
-                        <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält! </Text>
-                    </View>
-                )}
-                
-
-                <Pressable
-                        style={() => [{}, ButtonStyle.button]}
-                        onPress={ () => {
-                            if(invoice.order_id !== undefined && invoice.due_date !== undefined) {
-                                setShowErrorMessage(false);
-                                addInvoice();
-                            } else {
-                                setShowErrorMessage(true);
-                            }
-                        }}
-                    >
-                        <Text style={ButtonStyle.buttonText}>Skapa faktura</Text>
-                </Pressable>
-
-                <Pressable style={() => [{}, ButtonStyle.button]}
-                onPress= { () => {
-                    authModel.logout();
-                    setIsLoggedIn(false);
-                }}>
-                <Text style={ButtonStyle.buttonText}>Logga ut</Text>
-            </Pressable> 
-
-            </KeyboardAvoidingView>
-        </ScrollView>
-    )
+    
+                    <Text style={[Typography.label, Base.mainTextColor]}>Förfallodatum (obligatoriskt)</Text>
+                        <DateDropDown
+                            invoice={invoice}
+                            setInvoice={setInvoice}
+                        />
+    
+                    {(showErrorMessage) && (
+                        <View>
+                            <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält! </Text>
+                        </View>
+                    )}
+                    
+    
+                    <Pressable
+                            style={() => [{}, ButtonStyle.button]}
+                            onPress={ () => {
+                                if(invoice.order_id !== undefined && invoice.due_date !== undefined) {
+                                    setShowErrorMessage(false);
+                                    addInvoice();
+                                } else {
+                                    setShowErrorMessage(true);
+                                }
+                            }}
+                        >
+                            <Text style={ButtonStyle.buttonText}>Skapa faktura</Text>
+                    </Pressable>
+    
+                </KeyboardAvoidingView>
+            </ScrollView>
+        )
+    } else {
+        return (
+        <View style={[Base.base, Base.container, Base.mainBackgroundColor]}>
+            <Text style={[Typography.header2, Base.mainTextColor]}>Ny faktura</Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>Inga ordrar att fakturera</Text>
+        </View>
+        );
+    }
+    
 } 
