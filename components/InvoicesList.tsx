@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ScrollView, Text, Pressable } from "react-native";
-import { Base, ButtonStyle, Typography } from "../styles";
+import { Base, ButtonStyle, Typography, TableStyle } from "../styles";
 import authModel from "../models/auth";
 import Invoice from '../interfaces/invoice';
 import invoiceModel from '../models/invoices';
@@ -36,19 +36,37 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
     } else {
         invoicesList = allInvoices.map((invoice: Invoice, index: number) => {
             return (
+                
                 <DataTable.Row key={index}>
-                    <DataTable.Cell><Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.order_id}</Text></DataTable.Cell>
-                    <DataTable.Cell><Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.total_price} kr</Text></DataTable.Cell>
-                    <DataTable.Cell
-                    
-                        onPress= { () => {
+                    <DataTable.Cell style={TableStyle.tableCellLeft}
+                        
+                         onPress= { () => {
+                            navigation.navigate('Details', {
+                                invoice: invoice
+                            })
+
+                        }}>
+                        <Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.order_id}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell style={TableStyle.tableCellMiddle}
+                         onPress= { () => {
                             navigation.navigate('Details', {
                                 invoice: invoice
                             })
 
                         }}
                     >
-                        <Text style={[Typography.invoiceText, Base.mainTextColor]}>Visa</Text>
+                        <Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.due_date}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell style={TableStyle.tableCellRight}
+                         onPress= { () => {
+                            navigation.navigate('Details', {
+                                invoice: invoice
+                            })
+
+                        }}
+                    >
+                        <Text style={[Typography.invoiceText, Base.mainTextColor]}>{invoice.total_price}</Text>
                     </DataTable.Cell>
                 </DataTable.Row>
             );  
@@ -61,11 +79,12 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
 
             <ScrollView style={[Base.base, Base.mainBackgroundColor]}>
                 <Text style={[Typography.header2, Base.mainTextColor]}>Fakturor</Text>
+                <Text style={[Typography.normal, Base.mainTextColor]}>Tryck på en rad för att visa detaljer</Text>
                 <DataTable>
                     <DataTable.Header>
-                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Order</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Totalpris</Text></DataTable.Title>
-                        <DataTable.Title><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Detaljer</Text></DataTable.Title>
+                        <DataTable.Title style={TableStyle.tableTitleLeft}><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Order</Text></DataTable.Title>
+                        <DataTable.Title style={TableStyle.tableTitleMiddle}><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Förfaller</Text></DataTable.Title>
+                        <DataTable.Title style={TableStyle.tableTitleRight}><Text style={[Typography.invoiceHeader, Base.mainTextColor]}>Pris</Text></DataTable.Title>
                     </DataTable.Header>
                     {invoicesList}
                 </DataTable>
