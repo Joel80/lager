@@ -4,7 +4,7 @@ import authModel from "../models/auth";
 import Invoice from "../interfaces/invoice";
 
 
-export default function InvoiceDetails({route, setIsLoggedIn, navigation}) {
+export default function InvoiceDetails({route}) {
     const { invoice } = route.params;
     console.log(invoice);
 
@@ -22,6 +22,14 @@ export default function InvoiceDetails({route, setIsLoggedIn, navigation}) {
             </Text>
             <Text style={[Typography.normal, Base.mainTextColor]}>
                Adress: { invoice.address}
+            </Text>
+
+            <Text style={[Typography.normal, Base.mainTextColor]}>
+               Postkod: { invoice.zip}
+            </Text>
+
+            <Text style={[Typography.normal, Base.mainTextColor]}>
+               Stad: { invoice.city}
             </Text>
 
             <Text style={[Typography.normal, Base.mainTextColor]}>
