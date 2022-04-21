@@ -114,7 +114,7 @@ function DateDropDown(props) {
 
 
 
-export default function InvoiceForm({navigation, setIsLoggedIn, setInvoices}) {
+export default function InvoiceForm({navigation, setInvoices}) {
     const [invoice, setInvoice] = useState<Partial<Invoice>>({});
 
 
