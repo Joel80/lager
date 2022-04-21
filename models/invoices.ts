@@ -77,12 +77,15 @@ const invoices = {
     },
     updateInvoice: async function updateInvoice(invoice: Partial<Invoice>) {
         invoice.api_key = config.api_key;
+        const tokenAndData = await storage.readToken();
+        const token = tokenAndData.token;
         try {
 
             await fetch(`${config.base_url}/invoices`, {
                 body: JSON.stringify(invoice),
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
+                    'x-access-token': token,
                 },
                 method: 'PUT'
                 });
