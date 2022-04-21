@@ -5,4 +5,5 @@ import * as Forms from './forms';
 import * as DatePickerStyle from './datePicker';
 import * as PickerStyle from './picker';
 import * as DeliveryListStyle from './deliveryList'
-export { Base, Typography, ButtonStyle, Forms, DatePickerStyle, PickerStyle, DeliveryListStyle }
+import * as TableStyle from './table';
+export { Base, Typography, ButtonStyle, Forms, DatePickerStyle, PickerStyle, DeliveryListStyle, TableStyle }
