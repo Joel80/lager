@@ -13,10 +13,10 @@ export default function Invoice(props) {
             {(screenProps) => <InvoicesList {...screenProps} setIsLoggedIn={props.setIsLoggedIn} />}
             </Stack.Screen>
             <Stack.Screen name="Details">
-                {(screenProps) => <InvoiceDetails {...screenProps} setIsLoggedIn={props.setIsLoggedIn} />}
+                {(screenProps) => <InvoiceDetails {...screenProps} />}
             </Stack.Screen> 
             <Stack.Screen name="Form">
-                {(screenProps) => <InvoiceForm {...screenProps} setIsLoggedIn={props.setIsLoggedIn} setInvoices={props.setInvoices} />}
+                {(screenProps) => <InvoiceForm {...screenProps} setInvoices={props.setInvoices} />}
             </Stack.Screen> 
         </Stack.Navigator>  
     );
