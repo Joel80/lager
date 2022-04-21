@@ -50,3 +50,8 @@ export const label = {
     marginTop: 20,
 };
 
+export const heavy = {
+    fontSize: 24,
+    marginBottom: 14,
+};
+
