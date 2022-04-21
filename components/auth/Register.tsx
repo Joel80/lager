@@ -4,7 +4,7 @@ import authModel from '../../models/auth';
 import AuthFields from './AuthFields';
 
 
-export default function Register({navigation, setIsLoggedIn}) {
+export default function Register({navigation}) {
     const[auth, setAuth] = useState<Partial<Auth>>({});
 
     async function doRegister() {
