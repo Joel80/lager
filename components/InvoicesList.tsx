@@ -13,7 +13,7 @@ export default function Invoices({route, setIsLoggedIn, navigation}) {
 
     if (reload) {
         reloadInvoices();
-        reload = false;
+        //reload = false;
     }
 
     async function reloadInvoices() {
