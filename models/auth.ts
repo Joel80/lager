@@ -6,13 +6,10 @@ const auth = {
         let token = await storage.readToken();
         const twentyFourHours = 1000 * 60 * 60 * 24;
         let notExpired;
-        if (token.token !== null && token.date !== null) {
+        if (token !== null) {
             notExpired= (new Date().getTime() - token.date) < twentyFourHours;
-        } else {
-            token = false;
-            notExpired = false;
-        }
-        
+        } 
+
         return token && notExpired;
     },
     login: async function login(email: string, password: string) {
@@ -29,7 +26,9 @@ const auth = {
             },
         });
         const result = await response.json();
+
         console.log(result);
+        
         await storage.storeToken(result.data.token);
 
         return result.data.message
