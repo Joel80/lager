@@ -21,3 +21,10 @@ https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
 Cannot change color of dateTimePicker
 https://github.com/react-native-datetimepicker/datetimepicker/issues/537 
 https://github.com/react-native-datetimepicker/datetimepicker/issues/308
+
+Map zoom 
+https://github.com/react-native-maps/react-native-maps/blob/master/example/examples/FitToSuppliedMarkers.js 
+
+https://github.com/react-native-maps/react-native-maps/blob/master/docs/mapview.md
+
+https://stackoverflow.com/questions/56312354/how-to-center-two-markers-with-react-native-map-view
