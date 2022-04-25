@@ -5,4 +5,5 @@ export default interface OrderItem {
     name: string,
     stock: number,
     price: number,
+    location: string,
 };
