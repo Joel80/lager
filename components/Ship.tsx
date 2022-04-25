@@ -4,12 +4,12 @@ import ShipOrder from './ShipOrder';
 
 const Stack = createNativeStackNavigator();
 
-export default function Pick(props) {
+export default function Ship(props) {
     return (
         <Stack.Navigator initialRouteName="List">
             <Stack.Screen name="List" component={ShippingList} />
             <Stack.Screen name="Details">
-                {(screenProps) => <ShipOrder {...screenProps} setProducts={props.setProducts} />}
+                {(screenProps) => <ShipOrder {...screenProps} />}
             </Stack.Screen> 
         </Stack.Navigator>  
     );
