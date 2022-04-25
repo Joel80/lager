@@ -14,8 +14,8 @@ export default function ShipOrder({ route }) {
     const defaultLongitudeDelta = 20;
     const { order } = route.params;
     const mapRef: Ref<MapView> = useRef(null);
-   
-    const [userLocationLoaded, setUserLocationLoaded] = useState<Boolean>(false);
+    const suppliedMarkers: string[] = ["deliveryMarker", "userMarker"];
+    let userLocationLoaded: Boolean = false;
 
 
     const orderItemsList = order.order_items.map((item: OrderItem, index: number) => {
@@ -72,34 +72,17 @@ export default function ShipOrder({ route }) {
                     identifier="userMarker"
                 />);
             console.log("User location loaded");
-            setUserLocationLoaded(true);
+            userLocationLoaded = true;
         }) ();
     }, []);
-
-    useEffect ( () => {
-        const suppliedMarkers: string[] = ["deliveryMarker", "userMarker"]
-        fitToMarkers(suppliedMarkers);
-    }, [userLocationLoaded])
-    
     
 
-    /* const fitToMarkers = (suppliedMarkers: string[]) => {
+
+    const fitToMarkers = () => {
         //console.log(mapRef.current);
         console.log("Fitting to markers");
         
         if (mapRef.current) {
-            //console.log(mapRef.current.props.children);
-            //console.log(mapRef.current.props.children);
-            mapRef.current.fitToSuppliedMarkers(suppliedMarkers);
-        }
-       
-    } */
-
-    function fitToMarkers (suppliedMarkers: string[]) {
-        //console.log(mapRef.current);
-        console.log("Fitting to markers");
-        
-        if (mapRef.current !== null) {
             //console.log(mapRef.current.props.children);
             //console.log(mapRef.current.props.children);
             mapRef.current.fitToSuppliedMarkers(suppliedMarkers);
@@ -147,7 +130,7 @@ export default function ShipOrder({ route }) {
                         ref={mapRef}
                         /* showsUserLocation={true}
                         onUserLocationChange={fitToMarkers} */
-                        //onPress={fitToMarkers}
+                        onPress={fitToMarkers}
                        /*  onMapReady={fitToMarkers} */
                     >
                     
@@ -155,7 +138,7 @@ export default function ShipOrder({ route }) {
                    {locationMarker}
                 </MapView>
             </View>
-            {/* <Text style={[Typography.normal, Base.mainTextColor]}>Tryck på kartan för att zooma in</Text> */}
+            <Text style={[Typography.normal, Base.mainTextColor]}>Tryck på kartan för att zooma in</Text>
         </View>
     );   
     
