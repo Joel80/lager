@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { ScrollView, Text, Pressable } from 'react-native';
 import Order from '../interfaces/order';
 import orderModel from '../models/orders';
 import { Base, Typography, ButtonStyle } from '../styles/index.js';
@@ -23,7 +23,7 @@ export default function OrderList( { route, navigation }) {
     }, []);
 
     const listOfOrders = allOrders
-        .filter(order => order.status === "Packad")
+        .filter(order => order.status_id >= 200)
         .map((order, index) => {
             return <Pressable
                 style={() => [{}, ButtonStyle.button]}
@@ -39,9 +39,9 @@ export default function OrderList( { route, navigation }) {
         });
     
     return (
-        <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
+        <ScrollView style={[Base.container, Base.base, Base.mainBackgroundColor]}>
             <Text style={[Typography.header2, Base.mainTextColor]}>Ordrar redo att skickas</Text>
             {listOfOrders}
-        </View>
+        </ScrollView>
     )
 }
