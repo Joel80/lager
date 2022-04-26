@@ -9,29 +9,27 @@ import OrderItem from '../interfaces/order_item.js';
 
 export default function ShipOrder({ route }) {
     const defaultLatitude = 60.128161 //59.3293235;
-    const defaultLongitude = 18.643501//18.0685808;
+    const defaultLongitude = 18.643501 //18.0685808;
     const defaultLatitudeDelta = 25;
     const defaultLongitudeDelta = 20;
     const { order } = route.params;
-    const mapRef: Ref<MapView> = useRef(null);
-   
-    const [userLocationLoaded, setUserLocationLoaded] = useState<Boolean>(false);
-
-
-    const orderItemsList = order.order_items.map((item: OrderItem, index: number) => {
-        return <Text
-                style={[Typography.normal, Base.mainTextColor]}
-                key={index}
-                >
-                    {item.name} - {item.amount} st.
-                </Text>
-    });
+    const mapRef  = useRef<MapView>(null);
 
     const [marker, setMarker] = useState(<Marker
         coordinate={{ latitude: defaultLatitude, longitude: defaultLongitude }}
-        title="Förvald markör"
+        title="Förvald leveransmarkör"
+    />);
+   
+    const [locationMarker, setLocationMarker] = useState(<Marker
+        coordinate={{ latitude: defaultLatitude, longitude: defaultLongitude }}
+        title="Förvald användarmarkör"
     />);
 
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const [userLocationLoaded, setUserLocationLoaded] = useState<Boolean>(false);
+    
+    const [markers, setMarkers] = useState<string[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -42,15 +40,11 @@ export default function ShipOrder({ route }) {
                 title={results[0].display_name}
                 identifier="deliveryMarker"
             />);
+            setMarkers(markers => [...markers, "deliveryMarker"]);
         })();
     }, []);
 
-    const [locationMarker, setLocationMarker] = useState(<Marker
-        coordinate={{ latitude: defaultLatitude, longitude: defaultLongitude }}
-        title="Förvald användarmarkör"
-    />);
-
-    const [errorMessage, setErrorMessage] = useState('');
+        
 
     useEffect ( () => {
         (async () => {
@@ -71,69 +65,48 @@ export default function ShipOrder({ route }) {
                     pinColor="blue"
                     identifier="userMarker"
                 />);
+            setMarkers(markers => [...markers, "userMarker"]);
             console.log("User location loaded");
-            setUserLocationLoaded(true);
+            console.log(markers);
         }) ();
     }, []);
 
     useEffect ( () => {
-        const suppliedMarkers: string[] = ["deliveryMarker", "userMarker"]
-        fitToMarkers(suppliedMarkers);
-    }, [userLocationLoaded])
-    
-    
-
-    /* const fitToMarkers = (suppliedMarkers: string[]) => {
-        //console.log(mapRef.current);
-        console.log("Fitting to markers");
-        
-        if (mapRef.current) {
-            //console.log(mapRef.current.props.children);
-            //console.log(mapRef.current.props.children);
-            mapRef.current.fitToSuppliedMarkers(suppliedMarkers);
+        console.log("Checking markers update");
+        if (markers.includes("deliveryMarker" && "userMarker")) {
+            fitToMarkers(markers);
         }
-       
-    } */
+        
+    }, [markers])
 
-    function fitToMarkers (suppliedMarkers: string[]) {
-        //console.log(mapRef.current);
+      
+    function fitToMarkers (markers: string[]) {
         console.log("Fitting to markers");
         
         if (mapRef.current !== null) {
-            //console.log(mapRef.current.props.children);
-            //console.log(mapRef.current.props.children);
-            mapRef.current.fitToSuppliedMarkers(suppliedMarkers);
+            mapRef.current.fitToSuppliedMarkers(markers);
         }
        
     }
 
-    const animateMap = () => {
-        //console.log(mapRef.current);
-        if (mapRef.current) {
-            mapRef.current.animateToRegion({
-                latitude: 55.0,
-                longitude: 15.0,
-                latitudeDelta: 1,
-                longitudeDelta: 1,
-                
-            });
-        }
-        
-    }
+
+    const orderItemsList = order.order_items.map((item: OrderItem, index: number) => {
+        return <Text
+                style={[Typography.normal, Base.mainTextColor]}
+                key={index}
+                >
+                    {item.name} - {item.amount} st.
+                </Text>
+    });
+
     
     return (
         <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
             <Text style={[Typography.header2, Base.mainTextColor]}>Skicka order</Text>
-            <Text style={[Typography.normal, Base.mainTextColor]}>Kund:</Text>
-            <Text style={[Typography.normal, Base.mainTextColor]}> 
-                  {order.name}, {order.address}, {order.zip} {order.city}
-            </Text>
-                {/* <Text style={[Typography.normal, Base.mainTextColor]}>Kund: {order.name}</Text>
-                <Text style={[Typography.normal, Base.mainTextColor]}>Address: {order.address}</Text>
-                <Text style={[Typography.normal, Base.mainTextColor]}>Postnummer: {order.zip} </Text>
-                <Text style={[Typography.normal, Base.mainTextColor]}>Ort: {order.city}</Text> */}
-                <Text style={[Typography.normal, Base.mainTextColor]}>Varor:</Text>
-                {orderItemsList}
+            <Text style={[Typography.normal, Base.mainTextColor]}>Order-id: {order.id} </Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>Kund: {order.name}, {order.address}, {order.zip} {order.city}</Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>Varor:</Text>
+            {orderItemsList}
 
             <View style={styles.container}>
                 <MapView                   
@@ -145,17 +118,13 @@ export default function ShipOrder({ route }) {
                             longitudeDelta: defaultLongitudeDelta,
                         }}
                         ref={mapRef}
-                        /* showsUserLocation={true}
-                        onUserLocationChange={fitToMarkers} */
-                        //onPress={fitToMarkers}
-                       /*  onMapReady={fitToMarkers} */
+
                     >
                     
                    {marker}
                    {locationMarker}
                 </MapView>
             </View>
-            {/* <Text style={[Typography.normal, Base.mainTextColor]}>Tryck på kartan för att zooma in</Text> */}
         </View>
     );   
     
