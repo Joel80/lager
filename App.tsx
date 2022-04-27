@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Home from './components/Home';
 import Pick from './components/Pick';
 import Delivery from './components/Delivery';
-import Ship from './components/Ship';
+import Ship from './components/ship/Ship';
 import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Base } from './styles/index.js';
