@@ -1,5 +1,5 @@
-import { createRef, Ref, useEffect, useRef, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Base, Typography } from '../../styles/index.js';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -13,6 +13,8 @@ export default function ShipOrder({ route }) {
     const defaultLatitudeDelta = 25;
     const defaultLongitudeDelta = 20;
     const { order } = route.params;
+
+    // Ref to MapViev, initialize mapRef.current to null
     const mapRef  = useRef<MapView>(null);
 
     const [marker, setMarker] = useState(<Marker
@@ -27,6 +29,7 @@ export default function ShipOrder({ route }) {
 
     const [errorMessage, setErrorMessage] = useState('');
     
+    // State for array with marker id:s
     const [markers, setMarkers] = useState<string[]>([]);
 
     useEffect(() => {
@@ -38,6 +41,7 @@ export default function ShipOrder({ route }) {
                 title={results[0].display_name}
                 identifier="deliveryMarker"
             />);
+             // Add marker identifier to markers array
             setMarkers(markers => [...markers, "deliveryMarker"]);
         })();
     }, []);
@@ -63,15 +67,20 @@ export default function ShipOrder({ route }) {
                     pinColor="blue"
                     identifier="userMarker"
                 />);
+            // Add marker identifier to markers array
             setMarkers(markers => [...markers, "userMarker"]);
             console.log("User location loaded");
             console.log(markers);
         }) ();
     }, []);
 
+    // UseEffect for markers, run when markers array changes
     useEffect ( () => {
         console.log("Checking markers update");
+        // If both identifiers are in the array
         if (markers.includes("deliveryMarker" && "userMarker")) {
+            // Call fitToMarkers with markers array to fit map
+            // to markers
             fitToMarkers(markers);
         }
         
@@ -81,6 +90,8 @@ export default function ShipOrder({ route }) {
     function fitToMarkers (markers: string[]) {
         console.log("Fitting to markers");
         
+        // If mapRef.current is not null
+        // call method fitToSuppliedMarkers with markers array 
         if (mapRef.current !== null) {
             mapRef.current.fitToSuppliedMarkers(markers);
         }
@@ -101,7 +112,8 @@ export default function ShipOrder({ route }) {
     return (
         <View style={[Base.container, Base.base, Base.mainBackgroundColor]}>
             <Text style={[Typography.header2, Base.mainTextColor]}>Skicka order: {order.id}</Text>
-            <Text style={[Typography.normal, Base.mainTextColor]}>{order.name}, {order.address}, {order.zip} {order.city}</Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>{order.name}</Text>
+            <Text style={[Typography.normal, Base.mainTextColor]}>{order.address}, {order.zip} {order.city}</Text>
             <Text style={[Typography.header4, Base.mainTextColor]}>Varor:</Text>
             {orderItemsList}
 
@@ -132,8 +144,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
-        marginBottom: 10,
-        marginTop: 10,
+        /* marginBottom: 10,
+        marginTop: 10, */
     },
     map: {
         ...StyleSheet.absoluteFillObject,
