@@ -16,8 +16,8 @@ export const header3 = {
 
 export const header4 = {
     fontSize: 20,
-    marginBottom: 14,
-    marginTop: 14,
+    marginBottom: 8,
+    marginTop: 8,
 };
 
 export const orderHeader = {
