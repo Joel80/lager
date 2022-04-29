@@ -14,6 +14,7 @@ import InvoiceInterface from './interfaces/invoice';
 import authModel from './models/auth';
 import Auth from './components/auth/Auth';
 import Invoice from './components/Invoice';
+import FlashMessage from 'react-native-flash-message';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,8 +33,10 @@ export default function App() {
   const [invoices, setInvoices] = useState<InvoiceInterface[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   
-  useEffect(async () => {
-      setIsLoggedIn(await authModel.loggedIn())
+  useEffect(() => {
+      (async () => {
+        setIsLoggedIn(await authModel.loggedIn())
+      })();   
   }, []);
 
   return (
@@ -72,6 +75,7 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
       <StatusBar style="auto"/>
+      <FlashMessage position="top" />
     </SafeAreaView>
   );
 }
