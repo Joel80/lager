@@ -2,6 +2,7 @@ import Auth from '../../interfaces/auth';
 import { useState } from 'react';
 import authModel from '../../models/auth';
 import AuthFields from './AuthFields';
+import { showMessage } from "react-native-flash-message";
 
 
 export default function Login({navigation, setIsLoggedIn}) {
@@ -12,7 +13,22 @@ export default function Login({navigation, setIsLoggedIn}) {
         if (auth.email && auth.password) {
             console.log("In Login.tsx/doLogin auth.email and auth.password true")
             const result = await authModel.login(auth.email, auth.password);
-            setIsLoggedIn(true);
+            if (result.type === "success") {
+                setIsLoggedIn(true);
+            }
+
+            showMessage({
+                message: result.title,
+                description: result.message,
+                type: "success",
+            });
+            
+        } else {
+            showMessage({
+                message: "Saknas",
+                description: "E-post eller lösenord saknas",
+                type: "warning"
+            });
         }
     }
 
