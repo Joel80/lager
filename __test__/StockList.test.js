@@ -1,4 +1,8 @@
 
+/**
+ * Use- case: I Lagerförteckningen ska det finnas en lista med produkter. Listan ska innehålla produktens namn och lagersaldo.
+ */
+
 // Use fake timers to circumvent animation timers from react-paper (Datatable)
 jest.useFakeTimers();
 
@@ -20,7 +24,7 @@ const setProducts = () => false;
 test('List should contain three items', async () => {
     const { getByText, debug } = render(<StockList products={products} setProducts={setProducts} />);
 
-    debug("Stocklist component");
+    //debug("Stocklist component");
 
     const shampoo = await getByText('Shampoo', { exact: false });
     const balsam = await getByText('Balsam', { exact: false });
