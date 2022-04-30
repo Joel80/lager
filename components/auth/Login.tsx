@@ -20,7 +20,7 @@ export default function Login({navigation, setIsLoggedIn}) {
             showMessage({
                 message: result.title,
                 description: result.message,
-                type: "success",
+                type: result.type,
             });
             
         } else {
