@@ -32,3 +32,4 @@ https://stackoverflow.com/questions/56312354/how-to-center-two-markers-with-reac
 Trouble with testin files with react native paper because of Animated
 https://benjaminjohnson.me/testing-animations-in-react-native
 https://jestjs.io/docs/timer-mocks
+https://stackoverflow.com/questions/59587799/how-to-resolve-animated-usenativedriver-is-not-supported-because-the-native 
