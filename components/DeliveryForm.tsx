@@ -7,6 +7,7 @@ import Delivery from '../interfaces/delivery';
 import deliveryModel from '../models/deliveries';
 import productModel from '../models/products';
 import Product from '../interfaces/product';
+import { showMessage } from "react-native-flash-message";
 
 
 function ProductDropDown(props) {
@@ -104,7 +105,6 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     const [currentProduct, setCurrentProduct] = useState<Partial<Product>>({});
 
-    const [showErrorMessage, setShowErrorMessage] = useState<Boolean>(false);
 
     useEffect(() => {
         (async () => {
@@ -116,27 +116,39 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     }, []);
 
-    //console.log(delivery);
-
-    //console.log(delivery);
-    //console.log(`Drop down date: ${dropDownDate}`);
-    //console.log(`delivery.delivery_date: ${delivery.delivery_date}`);
-    //console.log(`delivery.product_id: ${delivery.product_id}`);
-    //console.log(`delivery.amount: ${delivery.amount}`);
-
     async function addDelivery() {
-        await deliveryModel.addDelivery(delivery)
 
-        const updatedProduct = {
-            ...currentProduct,
-            stock: (currentProduct.stock || 0) + (delivery.amount || 0)
-        };
+        if (delivery.product_id !== undefined && delivery.amount !== undefined && delivery.delivery_date !== undefined) {
+            
+           const result = await deliveryModel.addDelivery(delivery)
 
-        await productModel.updateProduct(updatedProduct);
+            const updatedProduct = {
+                ...currentProduct,
+                stock: (currentProduct.stock || 0) + (delivery.amount || 0)
+            };
 
-        setProducts(await productModel.getAllProducts());
-        
-        navigation.navigate("List", {reload: true});
+            await productModel.updateProduct(updatedProduct);
+
+            setProducts(await productModel.getAllProducts());
+            
+            navigation.navigate("List", {reload: true});
+
+            if (result !== undefined) {
+                showMessage({
+                    message: result.title,
+                    description: result.message,
+                    type: result.type,
+                });
+    
+            }
+            
+        } else {
+            showMessage({
+                message: "Saknas",
+                description: "Produkt, antal eller datum saknas",
+                type: "warning"
+            });
+        }
     }
 
     
@@ -176,24 +188,12 @@ export default function DeliveryForm({navigation, setProducts}) {
                         setDelivery({...delivery, comment: content})
                     }}
                     value={delivery?.comment}
-                />
-
-                {(showErrorMessage) && (
-                    <View>
-                        <Text style={[Typography.label, Base.mainTextColor]}>Var vänlig fyll i alla obligatoriska fält! </Text>
-                    </View>
-                )}
-                
+                />         
 
                 <Pressable
                         style={() => [{}, ButtonStyle.button]}
-                        onPress={ () => {
-                            if(delivery.product_id !== undefined && delivery.amount !== undefined && delivery.delivery_date !== undefined) {
-                                setShowErrorMessage(false);
-                                addDelivery();
-                            } else {
-                                setShowErrorMessage(true);
-                            }
+                        onPress={ () => {     
+                            addDelivery();
                         }}
                     >
                         <Text style={ButtonStyle.buttonText}>Gör inleverans</Text>
