@@ -1,3 +1,4 @@
+import { MessageType } from "react-native-flash-message";
 import config from "../config/config.json";
 import storage from "./storage";
 
@@ -31,16 +32,16 @@ const auth = {
             return {
                 title: result.errors.title,
                 message: result.errors.detail,
-                type: "danger",
+                type: "danger" as MessageType,
             };
         }
         
         await storage.storeToken(result.data.token);
 
         return {
-            title: "Inloggning",
+            title: "Registrering",
             message: result.data.message,
-            type:  <'success'> "success",
+            type:  "success" as MessageType,
         };
     },
     register: async function register(email: string, password: string) {
@@ -49,6 +50,7 @@ const auth = {
             email: email,
             password: password,
         };
+
         const response = await fetch(`${config.base_url}/auth/register`, {
             method: "POST",
             body: JSON.stringify(data),
@@ -57,7 +59,17 @@ const auth = {
             }
         });
 
-        return await response.json();
+        const result = await response.json();
+
+        console.log(result);
+
+        return {
+            title: "Inloggning",
+            message: result.data.message,
+            type:  "success" as MessageType,
+        };
+
+
     },
     logout: async function logout() {
         console.log("Logout");
