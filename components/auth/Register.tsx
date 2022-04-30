@@ -19,6 +19,7 @@ export default function Register({navigation}) {
                 description: result.message,
                 type: result.type,
             });
+
         } else {
             showMessage({
                 message: "Saknas",
