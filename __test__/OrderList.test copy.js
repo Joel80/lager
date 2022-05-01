@@ -10,9 +10,6 @@ import { render } from '@testing-library/react-native';
 import PickList from '../components/PickList';
 import orderModel from '../models/orders';
 
-// Silence warning Animated: `useNativeDriver` is not supported because the native animated module is missing.
-//jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
-
 jest.mock('../models/orders');
 
 const route = {
