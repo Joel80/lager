@@ -11,6 +11,7 @@ const orders = {
         return result.data;
     },
     getOrders: async function getOrders(): Promise<Order[]> {
+        console.log("Calling get orders");
         const response = await fetch(`${config.base_url}/orders?api_key=${config.api_key}`);
         const result = await response.json();
 
