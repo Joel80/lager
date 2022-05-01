@@ -9,14 +9,19 @@ export default function OrderList( { route, navigation }) {
     const { reload } = route.params || false;
     const [allOrders, setAllOrders] = useState<Order[]>([]);
 
+    
+
     if (reload) {
         reloadOrders();
+        route.params = false;
     }
 
     async function reloadOrders() {
         console.log("Reloading orders");
         setAllOrders(await orderModel.getOrders());
-        navigation.navigate("List", {reload:false});
+        console.log(`Done loading`);
+        console.log(`All orders: ${allOrders}`);
+        //navigation.navigate("List", {reload:false});
     }
 
     useEffect(() => {
