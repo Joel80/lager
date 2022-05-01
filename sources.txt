@@ -34,3 +34,6 @@ https://benjaminjohnson.me/testing-animations-in-react-native
 https://jestjs.io/docs/timer-mocks
 https://stackoverflow.com/questions/59587799/how-to-resolve-animated-usenativedriver-is-not-supported-because-the-native 
 https://reactnavigation.org/docs/5.x/testing/ 
+
+Problems with warnings in orderlist test
+https://github.com/testing-library/native-testing-library/issues/91
