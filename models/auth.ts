@@ -39,7 +39,7 @@ const auth = {
         await storage.storeToken(result.data.token);
 
         return {
-            title: "Registrering",
+            title: "Inloggad",
             message: result.data.message,
             type:  "success" as MessageType,
         };
@@ -64,7 +64,7 @@ const auth = {
         console.log(result);
 
         return {
-            title: "Inloggning",
+            title: "Registrering",
             message: result.data.message,
             type:  "success" as MessageType,
         };
