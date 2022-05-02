@@ -25,7 +25,11 @@ export default function OrderList( { route, navigation }) {
     }
 
     useEffect(() => {
-        reloadOrders();
+        (async () => {
+            setAllOrders(await orderModel.getOrders());
+        })();
+        //reloadOrders();
+        
     }, []);
 
     const listOfOrders = allOrders
