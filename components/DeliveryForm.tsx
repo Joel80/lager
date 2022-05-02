@@ -116,11 +116,76 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     }, []);
 
+    function isANumber(number: number): Boolean {
+        return typeof number === 'number';
+    }
+    
+    function validateProduct() : Boolean {
+        if (delivery.product_id !== undefined) {
+            return true;
+        } else {
+            showMessage ({
+                message: "Saknas",
+                description: "Datum saknas",
+                type: "warning"
+            });
+        }
+
+        return false;
+    }
+
+    function validateDate(): Boolean {
+        if (delivery.delivery_date !== undefined) {
+            return true;
+        } else {
+            showMessage ({
+                message: "Saknas",
+                description: "Datum saknas",
+                type: "warning"
+            });
+        }
+
+        return false;
+    }
+
+    function validateAmount(): Boolean {
+
+        if (delivery.amount !== undefined) {
+            if (isANumber(delivery.amount) && delivery.amount > 0) {
+                return true;
+            }
+
+        } else {
+            showMessage ({
+                message: "Saknas",
+                description: "Antal ej ifyllt eller felaktigt (får ej vara under 0)",
+                type: "warning"
+            });
+        }
+
+        return false;
+    }
+
     async function addDelivery() {
 
-        if (delivery.product_id !== undefined && delivery.amount !== undefined && delivery.delivery_date !== undefined) {
+        let messageString: string = "";
+
+        if (!validateProduct()) {
+            messageString += "Produkt ej ifylld "
+        }
+
+        if (!validateDate()) {
+            messageString += "Datum ej ifyllt "
+        }
+
+        if (!validateAmount()) {
+            messageString += "Antal ej ifyllt eller felaktigt (får ej vara under 0)"
+        }
+
+       
+        if (validateProduct() && validateDate() && validateAmount()) {
             
-           const result = await deliveryModel.addDelivery(delivery)
+            const result = await deliveryModel.addDelivery(delivery)
 
             const updatedProduct = {
                 ...currentProduct,
@@ -145,7 +210,7 @@ export default function DeliveryForm({navigation, setProducts}) {
         } else {
             showMessage({
                 message: "Saknas",
-                description: "Produkt, antal eller datum saknas",
+                description: messageString,
                 type: "warning"
             });
         }
@@ -168,6 +233,7 @@ export default function DeliveryForm({navigation, setProducts}) {
                 <TextInput 
                     style={Forms.input}
                     onChangeText={(content: string) => {
+                        validateAmount();
                         setDelivery({...delivery, amount: parseInt(content) || undefined})
                     }}
                     value={delivery?.amount?.toString()}
