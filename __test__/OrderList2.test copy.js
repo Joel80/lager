@@ -1,10 +1,10 @@
 
 /**
- * I komponenten <OrderList> bör en lista med ordrar ritas ut.
+ * I komponenten <OrderList> bör en lista med ordrar som har status "Ny" ritas ut.
  */
 
 
-import { render, waitFor} from '@testing-library/react-native';
+import { render, screen } from '@testing-library/react-native';
 import OrderList from '../components/OrderList';
 import orderModel from '../models/orders';
 //import { act } from 'react-dom/test-utils';
@@ -32,7 +32,7 @@ test('List orders', async () => {
     
     //const {getByText} =  render(<OrderList route={route} navigation={navigation} />);
 
-    const {findByText, getByText} =  render(<OrderList route={route} navigation={navigation} />);
+    const {findByText, getByText, queryByText} =  render(<OrderList route={route} navigation={navigation} />);
     // Wait for the text IKEA to be displayed (wait for the state to update when async reLoadOrders is called and setAllOrders is executed on )
     //await waitFor(() => expect(getByText('IKEA')).toBeTruthy());
     //await waitFor(() => expect(getByText('IKEA')).toBeTruthy());
@@ -41,13 +41,14 @@ test('List orders', async () => {
     //console.log(`Component: ${component}`);
 
     // Wait for the text IKEA to be displayed (wait for the state to update when async reLoadOrders is called and setAllOrders is executed on )
-    // this is done by using findBy rather than getBy 
-    const ikea = await findByText('IKEA', { exact: false });
-    expect(ikea).toBeDefined();
-
+    // this is done by using findBy rather than getBy. When IKEA is loaded the other orders will be loaded too. 
+    expect (await findByText('IKEA', { exact: false })).toBeDefined();
+    
     // Use getBy here to avoid warning on you used async act without await... which you get with several findBy:s
-    const bth = await getByText('BTH', { exact: false }); 
-    expect(bth).toBeDefined();
+    expect (await getByText('BTH', { exact: false })).toBeDefined();
+
+    // Check that element with text 'Plantagen is not rendered' 
+    expect(await queryByText('Plantagen')).toBeNull();
 
     
     //const bth = await findByText('BTH', { exact: false }); 
