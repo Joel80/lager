@@ -43,6 +43,8 @@ export default function OrderList( { route, navigation }) {
                         order: order
                     });
                 }}
+                testID="orderDetailButton"
+
             >
                 <Text style={ButtonStyle.buttonText}>{order.name}</Text>
             </Pressable>
