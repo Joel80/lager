@@ -10,7 +10,7 @@ import { render/* , act  */} from '@testing-library/react-native';
 import OrderList from '../components/OrderList';
 import orderModel from '../models/orders';
 import { act } from 'react-dom/test-utils';
-//import TestRenderer from 'react-test-renderer';
+import TestRenderer from 'react-test-renderer';
 //const {act} = TestRenderer;
 
 // Mock the order model module
