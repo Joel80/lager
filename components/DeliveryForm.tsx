@@ -153,13 +153,13 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     function validateAmount(): Boolean {
 
-        if (delivery.amount !== undefined && isANumber(delivery.amount) && delivery.amount >= 0) {
+        if (delivery.amount !== undefined && isANumber(delivery.amount) && delivery.amount > 0) {
            return true;             
         } 
         
         showMessage ({
             message: "Saknas",
-            description: "Antal ej ifyllt eller felaktigt (får ej vara under 0)",
+            description: "Antal ej ifyllt eller felaktigt (får ej vara 0 eller under)",
             type: "warning"
         });
 
@@ -179,7 +179,7 @@ export default function DeliveryForm({navigation, setProducts}) {
         }
 
         if (!validateAmount()) {
-            messageString += "Antal ej ifyllt eller felaktigt (får ej vara under 0)"
+            messageString += "Antal ej ifyllt eller felaktigt (får ej vara 0 eller under)"
         }
 
        
