@@ -23,20 +23,24 @@ const resp = [
     { name: "Plantagen", status: "Packad"}
 ];
 
-// Set return value of mock for getOrders to resp
+// Set return value of mock for orderModel.getOrders() to resp
 orderModel.getOrders.mockReturnValue(resp);
 
 
-test('List orders', async () => {
+test('Orders with status "Ny" are rendered', async () => {
     
     const {findByText, getByText, queryByText} =  render(<OrderList route={route} navigation={navigation} />);
     
     // Wait for the text IKEA to be displayed (wait for the state to update when async reloadOrders is called and setAllOrders is executed )
     // this is done by using findBy rather than getBy. When IKEA is loaded the other orders will be loaded too. 
-    expect (await findByText('IKEA', { exact: false })).toBeDefined();
+    const ikea = await findByText('IKEA', { exact: false });
+
+    expect(ikea).toBeDefined();
     
     // Use getBy here to avoid warning you get with several findBy:s
-    expect (await getByText('BTH', { exact: false })).toBeDefined();
+    const bth = await getByText('BTH', { exact: false });
+
+    expect(bth).toBeDefined();
 
     // Check that element with text 'Plantagen' is not rendered (status 'Packad') 
     expect(await queryByText('Plantagen')).toBeNull();        
