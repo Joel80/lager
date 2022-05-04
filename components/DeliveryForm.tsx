@@ -39,7 +39,10 @@ function ProductDropDown(props) {
                 //console.log(`selected prouct: ${itemValue}`)
                 props.setDelivery({...props.delivery, product_id: itemValue});
                 props.setCurrentProduct(productsHash[itemValue]);
-            }}>
+            }}
+            testID="product-picker"
+        >
+
             {itemsList}
         </Picker>
     );
@@ -59,7 +62,7 @@ function DateDropDown(props) {
 
  
     return (
-        <View>
+        <View testID='delivery-date-picker'>
             {Platform.OS === "android" && (
                 <Pressable
                     style={() => [{}, ButtonStyle.button]}
@@ -90,7 +93,7 @@ function DateDropDown(props) {
                     }}
                     
                     value={dropDownDate}  
-                     
+                    
                 />
             )}
             
@@ -192,7 +195,11 @@ export default function DeliveryForm({navigation, setProducts}) {
                 stock: (currentProduct.stock || 0) + (delivery.amount || 0)
             };
 
+            
+
             await productModel.updateProduct(updatedProduct);
+
+            //console.log(updatedProduct);
 
             setProducts(await productModel.getAllProducts());
             
@@ -239,6 +246,7 @@ export default function DeliveryForm({navigation, setProducts}) {
                     value={delivery?.amount?.toString()}
                     keyboardType="numeric"
                     selectionColor='#357960'
+                    testID="amount-field"
                 />
 
                 <Text style={[Typography.label, Base.mainTextColor]}>Datum (obligatoriskt)</Text>
@@ -261,6 +269,7 @@ export default function DeliveryForm({navigation, setProducts}) {
                         onPress={ () => {     
                             addDelivery();
                         }}
+                        testID="submit-button"
                     >
                         <Text style={ButtonStyle.buttonText}>Gör inleverans</Text>
                 </Pressable>

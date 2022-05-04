@@ -1,12 +1,12 @@
 import { ScrollView, Text, Pressable } from "react-native";
-import { Base, ButtonStyle, Typography } from "../styles";
-import authModel from "../models/auth";
-import Invoice from "../interfaces/invoice";
+import { Base, Typography } from "../styles";
 
 
-export default function InvoiceDetails({route}) {
-    const { invoice } = route.params;
-    console.log(invoice);
+
+export default function InvoiceDetails({ route }) {
+   //console.log(route.params);
+   const { invoice } = route.params;
+   //console.log(invoice);
 
     return (
         <ScrollView style={[Base.base, Base.mainBackgroundColor]}>

@@ -58,6 +58,7 @@ export default function AuthFields ({auth, setAuth, title, submit, navigation })
             autoCorrect={false}
             value={auth?.email}
             keyboardType="email-address"
+            testID="email-field"
         />
         <Text style={[Typography.label, Base.mainTextColor]}>Lösenord</Text>
 
@@ -71,6 +72,7 @@ export default function AuthFields ({auth, setAuth, title, submit, navigation })
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
+            testID="password-field"
         />
         <Pressable style={() => [{}, ButtonStyle.button]}
             onPress= { () => {
@@ -82,8 +84,9 @@ export default function AuthFields ({auth, setAuth, title, submit, navigation })
                         type: "danger"
                     });
                 }
-                
-            }}>
+            }}
+            accessibilityLabel={`${title} genom att trycka`}
+        >
             <Text style={ButtonStyle.buttonText}>{title}</Text>
         </Pressable>
 
