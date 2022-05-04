@@ -153,18 +153,15 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     function validateAmount(): Boolean {
 
-        if (delivery.amount !== undefined) {
-            if (isANumber(delivery.amount) && delivery.amount > 0) {
-                return true;
-            }
-
-        } else {
-            showMessage ({
-                message: "Saknas",
-                description: "Antal ej ifyllt eller felaktigt (får ej vara under 0)",
-                type: "warning"
-            });
-        }
+        if (delivery.amount !== undefined && isANumber(delivery.amount) && delivery.amount >= 0) {
+           return true;             
+        } 
+        
+        showMessage ({
+            message: "Saknas",
+            description: "Antal ej ifyllt eller felaktigt (får ej vara under 0)",
+            type: "warning"
+        });
 
         return false;
     }
@@ -240,8 +237,8 @@ export default function DeliveryForm({navigation, setProducts}) {
                 <TextInput 
                     style={Forms.input}
                     onChangeText={(content: string) => {
-                        validateAmount();
                         setDelivery({...delivery, amount: parseInt(content) || undefined})
+                        //validateAmount();
                     }}
                     value={delivery?.amount?.toString()}
                     keyboardType="numeric"
