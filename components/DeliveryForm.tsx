@@ -119,6 +119,7 @@ export default function DeliveryForm({navigation, setProducts}) {
 
     }, []);
 
+    
     function isANumber(number: number): Boolean {
         return typeof number === 'number';
     }
@@ -159,7 +160,7 @@ export default function DeliveryForm({navigation, setProducts}) {
         
         showMessage ({
             message: "Saknas",
-            description: "Antal ej ifyllt eller felaktigt (får ej vara 0 eller under)",
+            description: "Antal ej ifyllt eller felaktigt (måste vara en siffra, får ej vara 0 eller under)",
             type: "warning"
         });
 
@@ -179,7 +180,7 @@ export default function DeliveryForm({navigation, setProducts}) {
         }
 
         if (!validateAmount()) {
-            messageString += "Antal ej ifyllt eller felaktigt (får ej vara 0 eller under)"
+            messageString += "Antal ej ifyllt eller felaktigt (måste vara en siffra, får ej vara 0 eller under)"
         }
 
        
