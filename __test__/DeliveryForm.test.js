@@ -28,7 +28,7 @@ const navigation = () => false;
 
 
 
-test('header, pickers for product and date, field for amount and submit button should exist', async () => {
+test('heading, pickers for product and date, field for amount and submit button renders, pressing submit calls deliveryModel.addDelivery', async () => {
     const { getByText, getByTestId, findByTestId } = render(<DeliveryForm 
         setProducts={setProducts}
         navigation={navigation} 
